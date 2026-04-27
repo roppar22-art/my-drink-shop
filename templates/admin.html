@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Order List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+        .order-card { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .cancel-btn { background: #ff4d4d; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 10px; }
+    </style>
 </head>
-<body style="font-family: sans-serif; padding: 10px;">
-    <h2 style="text-align: center;">ဝင်လာသမျှ Order များ</h2>
-    
-    <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
-        <tr style="background: #eee;">
-            <th style="padding: 10px;">အမည်</th>
-            <th style="padding: 10px;">မှာသည့်ပစ္စည်း</th>
-            <th style="padding: 10px;">လိပ်စာ</th>
-        </tr>
-        {% for order in orders %}
-        <tr>
-            <td style="padding: 10px;">{{ order[1] }}</td>
-            <td style="padding: 10px;">{{ order[3] }}</td>
-            <td style="padding: 10px;">{{ order[2] }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    
-    <br>
-    <a href="/" style="display: block; text-align: center;">Back to Shop</a>
+<body>
+    <h2>အော်ဒါစာရင်း</h2>
+    {% for order in orders %}
+    <div class="order-card">
+        <p><b>Order ID:</b> #{{ order[0] }}</p>
+        <p><b>ဝယ်သူနာမည်:</b> {{ order[1] }}</p>
+        <p><b>လိပ်စာ:</b> {{ order[2] }}</p>
+        <p><b>မှာယူသည့်ပစ္စည်း:</b> {{ order[3] }}</p>
+        <a href="/cancel_order/{{ order[0] }}?pw={{ pw }}" class="cancel-btn" onclick="return confirm('ဒီအော်ဒါကို တကယ်ပဲ Cancel လုပ်မှာလား?')">Cancel Order (ပစ္စည်းမရှိပါ)</a>
+    </div>
+    {% endfor %}
 </body>
 </html>
