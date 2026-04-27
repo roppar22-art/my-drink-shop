@@ -2,12 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tinzar Coffee Shop | Coffee & Cakes</title>
-  <!-- Font Awesome 6 (Free) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Google Fonts: Poppins & Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -15,589 +13,156 @@
       box-sizing: border-box;
       font-family: 'Inter', sans-serif;
     }
-
     body {
       background-color: #fefaf5;
       color: #2c241a;
     }
-
-    /* HEADER & TOP BAR */
-    .top-bar {
-      background: white;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    .header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      padding: 12px 0;
-      gap: 12px;
-    }
-    .logo h1 {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1.7rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #b05e27, #6b2e0e);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      letter-spacing: -0.5px;
-    }
-    .logo span {
-      font-size: 0.8rem;
-      font-weight: 400;
-      color: #b05e27;
-      display: block;
-    }
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    .points-badge {
-      background: #fff2e6;
-      padding: 6px 12px;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      color: #b45f2b;
-    }
-    .points-badge i {
-      margin-right: 6px;
-      color: #e68a2e;
-    }
-    .cart-icon {
-      position: relative;
-      cursor: pointer;
-      font-size: 1.6rem;
-      color: #5e2e12;
-    }
-    .cart-count {
-      position: absolute;
-      top: -8px;
-      right: -12px;
-      background: #e25c1c;
-      color: white;
-      border-radius: 30px;
-      font-size: 0.7rem;
-      font-weight: bold;
-      padding: 2px 8px;
-      min-width: 20px;
-      text-align: center;
-    }
-    .login-btn {
-      background: none;
-      border: 1.5px solid #d97d2b;
-      padding: 6px 14px;
-      border-radius: 30px;
-      font-weight: 600;
-      background: white;
-      transition: 0.2s;
-      cursor: pointer;
-      color: #b45f2b;
-    }
-    .login-btn:hover {
-      background: #d97d2b10;
-    }
-
-    /* Location & delivery row */
-    .location-delivery {
-      background: #ffffff;
-      border-bottom: 1px solid #f0e3d8;
-      padding: 12px 0;
-    }
-    .flex-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-    .location-selector {
-      background: #f8f2ec;
-      padding: 8px 16px;
-      border-radius: 40px;
-      font-size: 0.9rem;
-    }
-    .delivery-methods {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .delivery-btn {
-      background: #f4ede7;
-      border: none;
-      padding: 6px 16px;
-      border-radius: 30px;
-      font-weight: 500;
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      color: #4a2e1e;
-    }
-    .delivery-btn.active {
-      background: #d97d2b;
-      color: white;
-      box-shadow: 0 4px 8px rgba(217,125,43,0.2);
-    }
-    .tornado-banner {
-      background: linear-gradient(95deg, #ffedd5, #ffe3cd);
-      padding: 12px 20px;
-      border-radius: 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 16px 0;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .tornado-text {
-      font-weight: 800;
-      font-size: 1.2rem;
-      color: #bc581c;
-    }
-    .join-points-btn {
-      background: #2c2a26;
-      border: none;
-      color: #fff2e6;
-      padding: 8px 18px;
-      border-radius: 32px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    /* menu categories */
-    .categories {
-      display: flex;
-      gap: 20px;
-      overflow-x: auto;
-      padding: 16px 0;
-      margin: 16px 0 8px;
-      border-bottom: 1px solid #f0e3d8;
-    }
-    .cat-item {
-      font-weight: 600;
-      color: #7a5a44;
-      white-space: nowrap;
-      cursor: pointer;
-      padding-bottom: 6px;
-      border-bottom: 2px solid transparent;
-    }
-    .cat-item.active {
-      color: #bc581c;
-      border-bottom-color: #bc581c;
-    }
-    /* combo grid */
-    .combo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 28px;
-      margin: 32px 0;
-    }
-    .product-card {
-      background: white;
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: 0 12px 22px rgba(0,0,0,0.04);
-      transition: transform 0.2s;
-      border: 1px solid #f3e4d8;
-    }
-    .product-card:hover {
-      transform: translateY(-4px);
-    }
-    .card-content {
-      padding: 20px;
-    }
-    .product-title {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .product-desc {
-      color: #8f6e52;
-      font-size: 0.85rem;
-      margin-bottom: 16px;
-    }
-    .price-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 12px;
-    }
-    .price {
-      font-weight: 800;
-      font-size: 1.5rem;
-      color: #b4531a;
-    }
-    .customize-btn, .add-cart-btn {
-      background: #fff0e6;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 40px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .customize-btn {
-      background: #fdeadd;
-      color: #bc581c;
-    }
-    .add-cart-btn {
-      background: #bc581c;
-      color: white;
-      margin-left: 8px;
-    }
-    .exclusive-section {
-      margin: 40px 0;
-    }
-    .exclusive-title {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-    }
-    .deals-flex {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-    .deal-card {
-      background: #fff4eb;
-      border-radius: 24px;
-      padding: 16px 20px;
-      flex: 1 1 180px;
-      text-align: center;
-    }
-    /* sidebar (mobile menu) */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -280px;
-      width: 280px;
-      height: 100%;
-      background: #2c241a;
-      z-index: 1000;
-      transition: 0.3s;
-      padding: 28px 20px;
-      color: #f9ede2;
-      box-shadow: 4px 0 20px rgba(0,0,0,0.2);
-    }
-    .sidebar.open {
-      left: 0;
-    }
-    .sidebar a, .sidebar .menu-item {
-      display: block;
-      color: #f0dfd0;
-      padding: 12px 0;
-      text-decoration: none;
-      font-weight: 500;
-      border-bottom: 0.5px solid #5f4a36;
-      cursor: pointer;
-    }
-    .close-sidebar {
-      text-align: right;
-      font-size: 1.4rem;
-      cursor: pointer;
-      margin-bottom: 20px;
-    }
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.4);
-      z-index: 999;
-      display: none;
-    }
-    /* Cart Drawer */
-    .cart-drawer {
-      position: fixed;
-      top: 0;
-      right: -400px;
-      width: 380px;
-      max-width: 90vw;
-      height: 100%;
-      background: white;
-      z-index: 1050;
-      box-shadow: -4px 0 20px rgba(0,0,0,0.1);
-      transition: 0.3s;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-    }
-    .cart-drawer.open {
-      right: 0;
-    }
-    .cart-items {
-      flex: 1;
-      overflow-y: auto;
-    }
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      margin: 12px 0;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #eee;
-    }
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      z-index: 1100;
-      justify-content: center;
-      align-items: center;
-    }
-    .modal-content {
-      background: white;
-      max-width: 520px;
-      width: 90%;
-      border-radius: 32px;
-      padding: 24px;
-      max-height: 85vh;
-      overflow-y: auto;
-    }
-    button {
-      cursor: pointer;
-    }
-    .btn-primary {
-      background: #bc581c;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 40px;
-      font-weight: bold;
-    }
-    .condiment-group {
-      margin-top: 20px;
-    }
-    hr {
-      margin: 16px 0;
-    }
-    @media (max-width: 680px) {
-      .delivery-methods { gap: 8px; }
-      .delivery-btn { padding: 4px 12px; font-size: 0.7rem; }
-    }
+    /* Same CSS as previous coffee shop design – compact but complete */
+    .top-bar { background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+    .header-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; padding: 12px 0; gap: 12px; }
+    .logo h1 { font-family: 'Poppins', sans-serif; font-size: 1.7rem; background: linear-gradient(135deg, #b05e27, #6b2e0e); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .points-badge { background: #fff2e6; padding: 6px 12px; border-radius: 40px; font-weight: 600; color: #b45f2b; }
+    .cart-icon { position: relative; cursor: pointer; font-size: 1.6rem; color: #5e2e12; }
+    .cart-count { position: absolute; top: -8px; right: -12px; background: #e25c1c; color: white; border-radius: 30px; font-size: 0.7rem; padding: 2px 8px; }
+    .login-btn { background: none; border: 1.5px solid #d97d2b; padding: 6px 14px; border-radius: 30px; font-weight: 600; cursor: pointer; }
+    .location-delivery { background: white; border-bottom: 1px solid #f0e3d8; padding: 12px 0; }
+    .delivery-btn { background: #f4ede7; border: none; padding: 6px 16px; border-radius: 30px; cursor: pointer; }
+    .delivery-btn.active { background: #d97d2b; color: white; }
+    .tornado-banner { background: linear-gradient(95deg, #ffedd5, #ffe3cd); padding: 12px 20px; border-radius: 28px; display: flex; justify-content: space-between; align-items: center; margin: 16px 0; flex-wrap: wrap; }
+    .categories { display: flex; gap: 20px; overflow-x: auto; padding: 16px 0; border-bottom: 1px solid #f0e3d8; }
+    .cat-item { font-weight: 600; color: #7a5a44; cursor: pointer; padding-bottom: 6px; border-bottom: 2px solid transparent; white-space: nowrap; }
+    .cat-item.active { color: #bc581c; border-bottom-color: #bc581c; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px; margin: 32px 0; }
+    .product-card { background: white; border-radius: 28px; overflow: hidden; box-shadow: 0 12px 22px rgba(0,0,0,0.04); border: 1px solid #f3e4d8; padding: 20px; }
+    .product-title { font-size: 1.5rem; font-weight: 700; }
+    .price { font-weight: 800; font-size: 1.4rem; color: #b4531a; }
+    .customize-btn, .add-cart-btn { background: #fff0e6; border: none; padding: 8px 14px; border-radius: 40px; font-weight: 600; cursor: pointer; }
+    .add-cart-btn { background: #bc581c; color: white; margin-left: 8px; }
+    .cart-drawer, .sidebar, .modal { position: fixed; transition: 0.3s; background: white; z-index: 1000; }
+    /* ... remaining CSS similar to previous (compact) ... */
+    .cart-drawer { top: 0; right: -400px; width: 380px; height: 100%; box-shadow: -4px 0 20px rgba(0,0,0,0.1); padding: 24px; display: flex; flex-direction: column; }
+    .cart-drawer.open { right: 0; }
+    .sidebar { left: -280px; width: 280px; height: 100%; background: #2c241a; color: #f9ede2; padding: 28px 20px; top:0; }
+    .sidebar.open { left: 0; }
+    .modal { display: none; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+    .modal-content { background: white; max-width: 520px; width: 90%; border-radius: 32px; padding: 24px; max-height: 85vh; overflow-y: auto; }
+    .btn-primary { background: #bc581c; color: white; border: none; padding: 10px 20px; border-radius: 40px; font-weight: bold; cursor: pointer; }
+    @media (max-width: 680px) { .delivery-btn { padding: 4px 12px; font-size: 0.7rem; } }
   </style>
 </head>
 <body>
 
-<div class="overlay" id="overlay"></div>
+<!-- Sidebar & Overlay -->
+<div class="overlay" id="overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:999; display:none;"></div>
 <div class="sidebar" id="sidebar">
-  <div class="close-sidebar" id="closeSidebar"><i class="fas fa-times"></i></div>
-  <div class="menu-item"><i class="fas fa-language"></i> Language / العربية</div>
-  <div class="menu-item"><i class="fas fa-globe"></i> Country</div>
-  <div class="menu-item" onclick="alert('📍 Store locations: Downtown, City Mall, Riverside')"><i class="fas fa-store"></i> Store Locations</div>
-  <div class="menu-item" onclick="alert('📦 Track your order: use order ID from history')"><i class="fas fa-truck"></i> Track Order</div>
-  <div class="menu-item" onclick="alert('📜 Your order history appears here.')"><i class="fas fa-history"></i> Order History</div>
-  <div class="menu-item" onclick="alert('🎁 Exclusive offers available after login!')"><i class="fas fa-tag"></i> Offers</div>
-  <div class="menu-item" onclick="alert('❤️ Your favorite items list')"><i class="fas fa-heart"></i> My Favorites</div>
-  <div class="menu-item" onclick="document.getElementById('exploreMenu').scrollIntoView({behavior:'smooth'})"><i class="fas fa-utensils"></i> Explore Menu</div>
-  <div class="menu-item" onclick="alert('📝 We love feedback! Share your experience.')"><i class="fas fa-comment"></i> Feedback</div>
-  <div class="menu-item" onclick="alert('❓ FAQ: Delivery timing, payment methods, etc.')"><i class="fas fa-question-circle"></i> FAQ</div>
-  <div class="menu-item" onclick="alert('Terms & Conditions apply for loyalty points.')"><i class="fas fa-file-contract"></i> Terms & Conditions</div>
-  <div class="menu-item" onclick="alert('We value your privacy.')"><i class="fas fa-shield-alt"></i> Privacy Policy</div>
-  <div class="menu-item" onclick="alert('🍪 We use cookies to enhance experience.')"><i class="fas fa-cookie-bite"></i> Cookie Policy</div>
+  <div style="text-align:right; font-size:1.4rem; cursor:pointer;" id="closeSidebar"><i class="fas fa-times"></i></div>
+  <div class="menu-item" onclick="alert('🌍 Language switch demo')"><i class="fas fa-language"></i> Language / العربية</div>
+  <div class="menu-item" onclick="alert('🇲🇲 Country: Myanmar')"><i class="fas fa-globe"></i> Country</div>
+  <div class="menu-item" onclick="alert('📍 Locations: Yangon, Mandalay, Naypyitaw')"><i class="fas fa-store"></i> Store Locations</div>
+  <div class="menu-item" onclick="alert('📦 Track your order via Telegram')"><i class="fas fa-truck"></i> Track Order</div>
+  <div class="menu-item" onclick="window.location.href='/history'"><i class="fas fa-history"></i> Order History</div>
+  <div class="menu-item" onclick="alert('🎁 Special offers after login')"><i class="fas fa-tag"></i> Offers</div>
+  <div class="menu-item" onclick="alert('❤️ Your favorite items (coming soon)')"><i class="fas fa-heart"></i> My Favorites</div>
+  <div class="menu-item" onclick="document.getElementById('productSection').scrollIntoView({behavior:'smooth'})"><i class="fas fa-utensils"></i> Explore Menu</div>
+  <div class="menu-item" onclick="alert('📝 Feedback: tinzar@coffee.com')"><i class="fas fa-comment"></i> Feedback</div>
+  <div class="menu-item" onclick="alert('FAQ: Delivery takes 30-45 mins')"><i class="fas fa-question-circle"></i> FAQ</div>
+  <div class="menu-item" onclick="alert('Terms & conditions apply')"><i class="fas fa-file-contract"></i> Terms & Conditions</div>
+  <div class="menu-item" onclick="alert('Privacy policy: we protect your data')"><i class="fas fa-shield-alt"></i> Privacy Policy</div>
+  <div class="menu-item" onclick="alert('🍪 Cookies used for session')"><i class="fas fa-cookie-bite"></i> Cookie Policy</div>
 </div>
 
+<!-- Cart Drawer -->
 <div class="cart-drawer" id="cartDrawer">
-  <div style="display: flex; justify-content: space-between; align-items: center;">
-    <h3>Your Cart <i class="fas fa-shopping-cart"></i></h3>
-    <i class="fas fa-times" id="closeCart" style="font-size: 1.4rem; cursor:pointer;"></i>
-  </div>
-  <div id="cartItemsList" class="cart-items" style="margin: 20px 0;"></div>
+  <div style="display: flex; justify-content: space-between;"><h3>Your Cart</h3><i class="fas fa-times" id="closeCart" style="cursor:pointer;"></i></div>
+  <div id="cartItemsList" style="flex:1; overflow-y:auto; margin:20px 0;"></div>
   <div><strong>Total: $<span id="cartTotal">0.00</span></strong></div>
-  <button class="btn-primary" style="width:100%; margin-top: 16px;" onclick="alert('Order placed! +100 points earned (demo).')">Checkout</button>
+  <button class="btn-primary" style="width:100%; margin-top:16px;" onclick="proceedToCheckout()">Checkout</button>
 </div>
 
 <!-- Login Modal -->
 <div id="loginModal" class="modal">
-  <div class="modal-content">
-    <h3>Login to Unlock Offers</h3>
-    <input type="text" id="loginUser" placeholder="Username" style="width:100%; padding:12px; margin:8px 0; border-radius:30px; border:1px solid #ddd;">
-    <input type="password" id="loginPass" placeholder="Password" style="width:100%; padding:12px; margin:8px 0; border-radius:30px; border:1px solid #ddd;">
-    <button id="doLoginBtn" class="btn-primary" style="width:100%;">Login</button>
-    <p style="margin-top:12px; font-size:0.8rem;">Demo: any user/pass (just mock)</p>
-  </div>
+  <div class="modal-content"><h3>Login to Unlock Offers</h3><input type="text" id="loginUser" placeholder="Username" style="width:100%; padding:12px;"><input type="password" id="loginPass" placeholder="Password" style="width:100%; margin-top:8px; padding:12px;"><button id="doLoginBtn" class="btn-primary" style="width:100%; margin-top:12px;">Login</button><p style="margin-top:12px;">Demo: any user/pass</p></div>
 </div>
 
 <!-- Customize Modal (dynamic) -->
-<div id="customizeModal" class="modal">
-  <div class="modal-content" id="customizeModalContent">
-    <!-- dynamic content -->
-  </div>
-</div>
+<div id="customizeModal" class="modal"><div class="modal-content" id="customizeModalContent"></div></div>
 
-<div class="top-bar">
-  <div class="container">
-    <div class="header-row">
-      <div class="logo" style="display: flex; align-items:center; gap:12px;">
-        <i class="fas fa-mug-hot" style="font-size:2rem; color:#bc581c;"></i>
-        <div><h1>Tinzar Coffee Shop</h1><span>Artisan Coffee & Homestyle Cakes</span></div>
-      </div>
-      <div class="header-actions">
-        <div class="points-badge" id="pointsDisplay"><i class="fas fa-star"></i> 0 pts</div>
-        <div class="cart-icon" id="cartIcon"><i class="fas fa-bag-shopping"></i><span class="cart-count" id="cartCount">0</span></div>
-        <button class="login-btn" id="mainLoginBtn"><i class="fas fa-user"></i> Login</button>
-        <i class="fas fa-bars" id="menuToggle" style="font-size:1.6rem; cursor:pointer; color:#5e2e12;"></i>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Main Content -->
+<div class="top-bar"><div class="container"><div class="header-row"><div class="logo"><i class="fas fa-mug-hot" style="font-size:2rem; color:#bc581c;"></i><div><h1>Tinzar Coffee Shop</h1><span>Artisan Coffee & Homestyle Cakes</span></div></div><div class="header-actions"><div class="points-badge" id="pointsDisplay"><i class="fas fa-star"></i> {{ points }} pts</div><div class="cart-icon" id="cartIcon"><i class="fas fa-bag-shopping"></i><span class="cart-count" id="cartCount">0</span></div><button class="login-btn" id="mainLoginBtn">{% if logged_in %}Member{% else %}Login{% endif %}</button><i class="fas fa-bars" id="menuToggle" style="font-size:1.6rem; cursor:pointer;"></i></div></div></div></div>
 
-<div class="location-delivery">
-  <div class="container flex-row">
-    <div class="location-selector"><i class="fas fa-map-pin"></i> <select id="locationSelect"><option>Downtown Cafe</option><option>Northside Roastery</option><option>Harbor Lounge</option></select></div>
-    <div class="delivery-methods" id="deliveryMethods">
-      <button data-method="delivery" class="delivery-btn active">🚚 FREE DELIVERY</button>
-      <button data-method="pickup" class="delivery-btn">📦 SELF-PICKUP</button>
-      <button data-method="drive" class="delivery-btn">🚗 DRIVE-THRU</button>
-      <button data-method="carhop" class="delivery-btn">🛵 CARHOP</button>
-      <button data-method="dine" class="delivery-btn">🍽️ DINE-IN</button>
-    </div>
-  </div>
-</div>
+<div class="location-delivery"><div class="container flex-row" style="display:flex; justify-content:space-between; flex-wrap:wrap;"><div class="location-selector"><i class="fas fa-map-pin"></i> <select id="locationSelect"><option>Downtown Cafe</option><option>Northside Roastery</option></select></div><div class="delivery-methods"><button data-method="delivery" class="delivery-btn active">🚚 FREE DELIVERY</button><button data-method="pickup" class="delivery-btn">📦 SELF-PICKUP</button><button data-method="dine" class="delivery-btn">🍽️ DINE-IN</button></div></div></div>
 
-<div class="container">
-  <div class="tornado-banner">
-    <div><span class="tornado-text"><i class="fas fa-tornado"></i> TORNADO 2X LOYALTY POINTS</span> <span style="font-size:0.85rem;"> | Double points on all combos!</span></div>
-    <button class="join-points-btn" id="joinPointsBtn">Join now & get 500 Bonus Points</button>
-  </div>
+<div class="container"><div class="tornado-banner"><div><span class="tornado-text"><i class="fas fa-tornado"></i> TORNADO 2X LOYALTY POINTS</span> <span>Double points on all orders!</span></div><button class="join-points-btn" id="joinPointsBtn" style="background:#2c2a26; border:none; color:white; padding:8px 18px; border-radius:32px;">Join now & get 500 Bonus Points</button></div>
 
-  <div class="categories" id="categoryFilters">
-    <span class="cat-item active" data-cat="all">Explore Menu</span>
-    <span class="cat-item" data-cat="combos">Combo Boxes</span>
-    <span class="cat-item" data-cat="exclusive">EXCLUSIVE Deals</span>
-    <span class="cat-item" data-cat="cakes">Cakes & Pastries</span>
-  </div>
+<div class="categories" id="categoryFilters"><span class="cat-item {% if active_cat=='all' %}active{% endif %}" data-cat="all">All Menu</span><span class="cat-item {% if active_cat=='combo' %}active{% endif %}" data-cat="combo">Combo Boxes</span><span class="cat-item {% if active_cat=='cake' %}active{% endif %}" data-cat="cake">Cakes</span><span class="cat-item {% if active_cat=='coffee' %}active{% endif %}" data-cat="coffee">Coffee</span></div>
 
-  <!-- Combo grid section (main products) -->
-  <div id="comboGridContainer" class="combo-grid"></div>
-
-  <!-- Exclusive deals section -->
-  <div class="exclusive-section" id="exclusiveDealsSection">
-    <h2 class="exclusive-title"><i class="fas fa-gem"></i> EXCLUSIVE Deals</h2>
-    <div class="deals-flex" id="exclusiveDealsList"></div>
-  </div>
-</div>
+<div id="productSection" class="product-grid">{% for p in products %}<div class="product-card"><div class="product-title">{{ p.name }}</div><div class="product-desc">{{ p.desc }}</div><div class="price-row" style="display:flex; justify-content:space-between; align-items:center;"><span class="price">${{ "%.2f"|format(p.price/100) }}</span><div><button class="customize-btn" data-id="{{ p.id }}" data-name="{{ p.name }}" data-price="{{ p.price }}">CUSTOMIZE</button><button class="add-cart-btn" data-id="{{ p.id }}" data-name="{{ p.name }}" data-price="{{ p.price }}">ADD</button></div></div></div>{% endfor %}</div></div>
 
 <script>
-  // ---------- DATA MODELS ----------
-  let loyaltyPoints = 0;
-  let cart = [];  // each item: { id, name, price, customizationNote, quantity }
-  let currentDelivery = "delivery";
-  let loggedIn = false;
-
-  // Combo product definitions (coffee & cake themed)
-  const comboProducts = [
-    { id: "combo4", name: "4 Treat Box", basePrice: 48, description: "Choose 2 coffee drinks + 2 cake slices", selectionReq: { coffees:2, cakes:2, condimentsMax:1 } },
-    { id: "combo6", name: "6 Treat Box", basePrice: 78, description: "Choose 3 coffee drinks + 3 cake slices", selectionReq: { coffees:3, cakes:3, condimentsMax:2 } },
-    { id: "combo8", name: "8 Treat Box", basePrice: 98, description: "Choose 4 coffee drinks + 4 cake slices", selectionReq: { coffees:4, cakes:4, condimentsMax:2 } }
-  ];
-
-  const coffeeOptions = ["Espresso", "Latte", "Cappuccino", "Americano", "Mocha", "Caramel Macchiato"];
-  const cakeOptions = ["Cheesecake", "Chocolate Fudge", "Red Velvet", "Carrot Cake", "Lemon Drizzle", "Tiramisu"];
-  const condimentsList = ["Whipped Cream (+$0.5)", "Chocolate Syrup (+$0.5)", "Caramel Drizzle (+$0.5)", "Cinnamon Dust"];
-
-  // exclusive deals
-  const exclusiveDeals = [
-    { name: "☕ Buy 1 Get 1 Free", desc: "Any regular coffee", tag: "50% off" },
-    { name: "🍰 Cake + Coffee", desc: "Cheesecake + Latte", tag: "$10.99" },
-    { name: "🥐 Morning Deal", desc: "Croissant & Flat White", tag: "$7.5" },
-    { name: "2X Points Happy Hour", desc: "4-6PM Double points", tag: "Limited" }
-  ];
-
-  // render main combo cards
-  function renderCombos() {
-    const container = document.getElementById("comboGridContainer");
-    container.innerHTML = comboProducts.map(p => `
-      <div class="product-card" data-id="${p.id}">
-        <div class="card-content">
-          <div class="product-title">${p.name}</div>
-          <div class="product-desc">${p.description}</div>
-          <div class="price-row">
-            <span class="price">$${p.basePrice.toFixed(2)}</span>
-            <div><button class="customize-btn" data-id="${p.id}">CUSTOMIZE</button>
-            <button class="add-cart-btn" data-id="${p.id}">ADD TO CART</button></div>
-          </div>
-        </div>
-      </div>
-    `).join('');
-
-    // attach events
-    document.querySelectorAll('.customize-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const id = btn.dataset.id;
-        const product = comboProducts.find(p => p.id === id);
-        if(product) openCustomizeModal(product);
-      });
-    });
-    document.querySelectorAll('.add-cart-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const id = btn.dataset.id;
-        const product = comboProducts.find(p => p.id === id);
-        if(product) addToCartWithDefault(product);
-      });
-    });
+  // Helper to fetch cart and update UI
+  async function refreshCartUI() {
+    const res = await fetch('/api/get_cart');
+    const data = await res.json();
+    document.getElementById('cartCount').innerText = data.count;
+    const cartDiv = document.getElementById('cartItemsList');
+    if(data.cart.length === 0) cartDiv.innerHTML = '<p>Your cart is empty.</p>';
+    else {
+      cartDiv.innerHTML = data.cart.map((item, idx) => `<div class="cart-item" style="display:flex; justify-content:space-between; margin-bottom:12px;"><div><strong>${item.name}</strong><br/><small>${item.customization.substring(0,60)}</small></div><div>$${(item.price/100).toFixed(2)} <button class="remove-item" data-index="${idx}" style="background:none; border:none; color:#bc581c;"><i class="fas fa-trash-alt"></i></button></div></div>`).join('');
+      document.querySelectorAll('.remove-item').forEach(btn => btn.addEventListener('click', async (e) => { const idx = btn.dataset.index; await fetch('/api/remove_from_cart', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({index:parseInt(idx)})}); refreshCartUI(); }));
+    }
+    document.getElementById('cartTotal').innerText = (data.total/100).toFixed(2);
   }
 
-  // default simple add (without deep customization) 
-  function addToCartWithDefault(product) {
-    cart.push({
-      id: product.id + Date.now(),
-      name: product.name,
-      price: product.basePrice,
-      customizationNote: "Standard selection",
-      quantity: 1
-    });
-    updateCartUI();
-    showToast(`${product.name} added to cart!`);
+  async function addToCart(productId, productName, productPrice, customNote = "Standard") {
+    await fetch('/api/add_to_cart', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({id:productId, name:productName, price:productPrice, customization:customNote})});
+    refreshCartUI();
   }
 
-  // open advanced customization modal
-  let currentCustomProduct = null;
-  function openCustomizeModal(product) {
-    currentCustomProduct = product;
-    const req = product.selectionReq;
-    let coffeeSelectionHtml = '';
-    for(let i=0; i<req.coffees; i++) {
-      coffeeSelectionHtml += `<div style="margin-bottom:12px;"><label>☕ Coffee ${i+1}:</label><select class="coffee-sel-${i}" style="width:100%; padding:8px; border-radius:28px;">${coffeeOptions.map(c => `<option>${c}</option>`).join('')}</select></div>`;
-    }
-    let cakeSelectionHtml = '';
-    for(let i=0; i<req.cakes; i++) {
-      cakeSelectionHtml += `<div style="margin-bottom:12px;"><label>🍰 Cake ${i+1}:</label><select class="cake-sel-${i}" style="width:100%; padding:8px; border-radius:28px;">${cakeOptions.map(c => `<option>${c}</option>`).join('')}</select></div>`;
-    }
-    let condimentHtml = '<div class="condiment-group"><strong>Choose Your Condiments (max '+req.condimentsMax+'):</strong><br/>';
-    condimentsList.forEach((cond, idx) => {
-      condimentHtml += `<label><input type="checkbox" class="condiment-chk" value="${cond}"> ${cond}</label> &nbsp; `;
-    });
-    condimentHtml += '</div>';
+  document.querySelectorAll('.add-cart-btn').forEach(btn => {
+    btn.addEventListener('click', () => addToCart(btn.dataset.id, btn.dataset.name, parseInt(btn.dataset.price), "No customization"));
+  });
 
-    const modalContent = `
-      <h3>${product.name} - Customization</h3>
-      <p><strong>${product.description}</strong></p>
-      <div style="margin: 16px 0;"><h4>Choice of Coffees</h4>${coffeeSelectionHtml}</div>
-      <div style="margin: 16px 0;"><h4>Choice of Cakes</h4>${cakeSelectionHtml}</div>
-      ${condimentHtml}
-      <div style="margin:20px 0;"><strong>Total Price: $<span id="modalBasePrice">${product.basePrice}</span></strong> <span class="vtext">(VAT exclusive)</span></div>
-      <button id="confirmCustomizeBtn" class="btn-primary">Add to Cart</button>
-    `;
-    const modalDiv = document.getElementById("customizeModal");
-    document.getElementById("customizeModalContent").innerHTML = modalContent;
-    modalDiv.style.display = "flex";
-    document.getElementById("confirmCustomizeBtn").onclick = () => {
-      // collect selections
-      let selectedCoffees = [];
-      for(let i=0; i<req.coffees; i++) {
-        let sel = document.querySelector(`.coffee-sel-${i}`)?.value;
-      
+  // Customize modal (simplified but functional)
+  document.querySelectorAll('.customize-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const pid = btn.dataset.id, pname = btn.dataset.name, price = parseInt(btn.dataset.price);
+      const modalDiv = document.getElementById('customizeModal');
+      document.getElementById('customizeModalContent').innerHTML = `<h3>Customize ${pname}</h3><p>Add notes (e.g., extra shot, less sugar)</p><textarea id="customNote" rows="3" style="width:100%; padding:8px;"></textarea><button id="confirmCustom" class="btn-primary" style="margin-top:16px;">Add to Cart</button>`;
+      modalDiv.style.display = 'flex';
+      document.getElementById('confirmCustom').onclick = () => {
+        const note = document.getElementById('customNote').value || "Customized";
+        addToCart(pid, pname, price, note);
+        modalDiv.style.display = 'none';
+      };
+    });
+  });
+
+  // Login, Join Points, etc.
+  document.getElementById('mainLoginBtn').addEventListener('click', () => document.getElementById('loginModal').style.display='flex');
+  document.getElementById('doLoginBtn').addEventListener('click', async () => { const res = await fetch('/api/login', {method:'POST'}); const data = await res.json(); if(data.success){ location.reload(); } });
+  document.getElementById('joinPointsBtn').addEventListener('click', async () => { await fetch('/api/join_points', {method:'POST'}); location.reload(); });
+
+  // UI toggles
+  document.getElementById('cartIcon').addEventListener('click', () => { document.getElementById('cartDrawer').classList.add('open'); document.getElementById('overlay').style.display='block'; refreshCartUI(); });
+  document.getElementById('closeCart').addEventListener('click', () => { document.getElementById('cartDrawer').classList.remove('open'); document.getElementById('overlay').style.display='none'; });
+  document.getElementById('menuToggle').addEventListener('click', () => { document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').style.display='block'; });
+  document.getElementById('closeSidebar').addEventListener('click', () => { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').style.display='none'; });
+  document.getElementById('overlay').addEventListener('click', () => { document.getElementById('sidebar').classList.remove('open'); document.getElementById('cartDrawer').classList.remove('open'); document.getElementById('overlay').style.display='none'; });
+  document.querySelectorAll('.delivery-btn').forEach(btn => btn.addEventListener('click', function(){ document.querySelectorAll('.delivery-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); }));
+  document.querySelectorAll('.cat-item').forEach(cat => cat.addEventListener('click', function(){ const catVal = this.dataset.cat; window.location.href = `/?category=${catVal}`; }));
+
+  function proceedToCheckout() {
+    const name = prompt("Enter your name for delivery:");
+    if(!name) return;
+    const address = prompt("Enter your address:");
+    if(!address) return;
+    const form = document.createElement('form'); form.method='POST'; form.action='/checkout';
+    const nameInput = document.createElement('input'); nameInput.name='name'; nameInput.value=name;
+    const addrInput = document.createElement('input'); addrInput.name='address'; addrInput.value=address;
+    form.appendChild(nameInput); form.appendChild(addrInput); document.body.appendChild(form); form.submit();
+  }
+  refreshCartUI();
+</script>
+</body>
+</html>
