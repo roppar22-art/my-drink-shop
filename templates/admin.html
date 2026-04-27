@@ -1,27 +1,2 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
-    <style>
-        body { font-family: sans-serif; background: #eee; padding: 15px; }
-        .box { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .btn { padding: 10px 15px; border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; text-decoration: none; margin-right: 10px; font-size: 0.8rem; }
-    </style>
-</head>
-<body>
-    <h2>Admin - Manage Orders</h2>
-    {% for o in orders %}
-    <div class="box">
-        <p><b>Order ID: #{{ o[0] }}</b> <span style="float:right; color:red;">{{ o[4] }}</span></p>
-        <p>Customer: {{ o[1] }}<br>Address: {{ o[2] }}</p>
-        <p>Items: <span style="color:#555;">{{ o[3] }}</span></p>
-        
-        {% if o[4] == 'Pending' %}
-        <a href="/update_status/{{ o[0] }}/Confirmed?pw={{ pw }}" class="btn" style="background:green;">CONFIRM</a>
-        <a href="/update_status/{{ o[0] }}/Cancelled?pw={{ pw }}" class="btn" style="background:red;">CANCEL</a>
-        {% endif %}
-    </div>
-    {% endfor %}
-</body>
-</html>
+<html><head><title>Admin</title><style>body{font-family:monospace; padding:20px;} table{border-collapse:collapse;} td,th{border:1px solid #ccc; padding:8px;}</style></head><body><h1>Orders</h1><table><tr><th>ID</th><th>Name</th><th>Address</th><th>Items</th><th>Total</th><th>Status</th><th>Action</th></tr>{% for o in orders %}<tr><td>{{ o[0] }}</td><td>{{ o[1] }}</td><td>{{ o[2] }}</td><td>{{ o[3][:50] }}</td><td>{{ o[4] }}</td><td>{{ o[5] }}</td><td><a href="{{ url_for('update_status', id=o[0], new_status='Completed', pw=pw) }}">✅ Complete</a> <a href="{{ url_for('update_status', id=o[0], new_status='Cancelled', pw=pw) }}">❌ Cancel</a></td></tr>{% endfor %}</table></body></html>
