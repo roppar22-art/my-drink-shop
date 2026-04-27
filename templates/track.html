@@ -1,14 +1,29 @@
-<div style="text-align:center; padding:50px; font-family: sans-serif;">
-    <h2>Track Your Order</h2>
-    <form method="POST">
-        <input type="number" name="order_id" placeholder="Enter Order ID" style="padding:10px; border-radius:5px; border:1px solid #ddd;">
-        <button type="submit" style="padding:10px; background:#1a1a1a; color:white; border:none; border-radius:5px;">Check Status</button>
-    </form>
-
-    {% if order %}
-    <div style="margin-top:30px; padding:20px; border:1px solid #ddd; border-radius:10px;">
-        <p>Items: <b>{{ order[0] }}</b></p>
-        <p>Status: <b style="color:red;">{{ order[1] }}</b></p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Order</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 40px 20px; background: #f9f7f2; }
+        .box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        input { width: 80%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd; }
+        button { background: #1a1a1a; color: white; border: none; padding: 12px 30px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>အော်ဒါအခြေအနေ စစ်ဆေးရန်</h2>
+        <form method="POST">
+            <input type="number" name="order_id" placeholder="Order ID ရိုက်ထည့်ပါ" required>
+            <button type="submit">Check Status</button>
+        </form>
+        {% if res %}
+            <div style="margin-top:30px; padding:20px; border-top:1px solid #eee;">
+                <p>ပစ္စည်းများ: <b>{{ res[0] }}</b></p>
+                <p>အခြေအနေ: <b style="color:{% if res[1]=='Cancelled' %}red{% else %}green{% endif %}">{{ res[1] }}</b></p>
+            </div>
+        {% endif %}
+        <br><a href="/" style="color:#666">Back to Home</a>
     </div>
-    {% endif %}
-</div>
+</body>
+</html>
