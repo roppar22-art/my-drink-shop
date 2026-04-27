@@ -1,95 +1,497 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hardee's Clone</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root { --red: #e31837; --yellow: #ffc20e; --black: #1a1a1a; }
-        body { font-family: 'Arial', sans-serif; margin: 0; background: #f4f4f4; padding-bottom: 70px; }
-        
-        /* Header */
-        header { background: var(--black); color: white; padding: 15px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
-        
-        /* Sidebar */
-        .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: white; z-index: 2001; transition: 0.3s; padding-top: 60px; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
-        .sidebar.active { left: 0; }
-        .sidebar a { display: block; padding: 15px 25px; color: var(--black); text-decoration: none; font-weight: bold; border-bottom: 1px solid #eee; }
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Tinzar Coffee Shop</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --black:#0d0d0d;
+    --white:#ffffff;
+    --gray:#f5f5f5;
+    --mid:#888;
+    --border:#e8e8e8;
+    --accent:#c8a96e;
+    --accent-dark:#a0824a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:var(--gray);color:var(--black);min-height:100vh;}
 
-        /* Category Nav */
-        .cat-nav { background: white; display: flex; overflow-x: auto; padding: 10px; gap: 15px; border-bottom: 2px solid var(--yellow); }
-        .cat-btn { padding: 8px 18px; background: #eee; border-radius: 20px; text-decoration: none; color: #555; white-space: nowrap; font-size: 0.9rem; font-weight: bold; }
-        .cat-btn.active { background: var(--red); color: white; }
+  /* OVERLAY */
+  #sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:900;backdrop-filter:blur(2px);}
+  #sidebar-overlay.open{display:block;}
 
-        /* Product List */
-        .product-card { background: white; margin: 15px; border-radius: 10px; display: flex; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .product-card img { width: 120px; height: 120px; object-fit: cover; }
-        .details { padding: 15px; flex-grow: 1; }
-        .add-btn { background: var(--yellow); border: none; padding: 8px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; float: right; margin-top: -30px; }
+  /* SIDEBAR */
+  #sidebar{position:fixed;top:0;left:-320px;width:300px;height:100%;background:var(--black);z-index:1000;transition:left .3s ease;overflow-y:auto;padding-bottom:40px;}
+  #sidebar.open{left:0;}
 
-        /* Bottom Nav */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #ddd; }
-        .nav-item { text-align: center; color: #888; text-decoration: none; font-size: 0.7rem; }
-        .nav-item i { display: block; font-size: 1.3rem; margin-bottom: 2px; }
-        .nav-item.active { color: var(--red); }
-    </style>
+  .sb-header{background:#181818;padding:22px 18px 18px;border-bottom:1px solid #2a2a2a;}
+  .sb-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--white);}
+  .sb-logo span{color:var(--accent);}
+
+  .sb-login{display:flex;align-items:center;gap:12px;padding:18px;border-bottom:1px solid #2a2a2a;}
+  .sb-avatar{width:42px;height:42px;border-radius:50%;background:#2a2a2a;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid var(--accent);}
+  .sb-avatar svg{width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:1.8;}
+  .sb-login-text{flex:1;font-size:12px;color:#aaa;line-height:1.5;}
+  .sb-login-text strong{color:var(--white);display:block;font-size:13px;}
+  .sb-login-btn{border:1.5px solid var(--accent);color:var(--accent);background:transparent;padding:7px 14px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;transition:all .2s;}
+  .sb-login-btn:hover{background:var(--accent);color:var(--black);}
+
+  .sb-row{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;border-bottom:1px solid #2a2a2a;}
+  .sb-row label{font-weight:600;font-size:13px;color:#ccc;}
+  .lang-btn{border:1.5px solid #444;border-radius:5px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:#ccc;font-family:'DM Sans',sans-serif;transition:all .2s;}
+  .lang-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .loc-sel{display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13px;font-weight:600;color:#ccc;}
+
+  .sb-item{display:flex;align-items:center;gap:14px;padding:14px 18px;font-size:13px;font-weight:500;color:#bbb;cursor:pointer;border-bottom:1px solid #1e1e1e;text-decoration:none;transition:all .18s;}
+  .sb-item:hover{background:#1a1a1a;color:var(--accent);}
+  .sb-item:hover .si svg{stroke:var(--accent);}
+  .si{width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .si svg{width:18px;height:18px;stroke:#666;fill:none;stroke-width:1.8;transition:stroke .18s;}
+  .sb-div{height:1px;background:#2a2a2a;margin:6px 0;}
+
+  /* TOP NAV */
+  .top-nav{position:sticky;top:0;z-index:800;background:var(--black);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+  .nav-left{display:flex;align-items:center;gap:12px;}
+  .hbtn{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:5px;}
+  .hbtn span{display:block;width:22px;height:2px;background:var(--white);border-radius:2px;}
+  .nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:var(--white);}
+  .nav-logo span{color:var(--accent);}
+  .nav-lang{border:1.5px solid #444;border-radius:6px;padding:5px 13px;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:var(--white);font-family:'DM Sans',sans-serif;transition:all .2s;}
+  .nav-lang:hover{border-color:var(--accent);color:var(--accent);}
+
+  /* LOCATION BAR */
+  .loc-bar{background:var(--white);padding:11px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+  .loc-info{display:flex;align-items:center;gap:10px;}
+  .hsm{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:4px;}
+  .hsm span{display:block;width:18px;height:2px;background:var(--black);border-radius:2px;}
+  .loc-text h3{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;}
+  .loc-text p{font-size:10px;color:var(--mid);margin-top:1px;}
+  .sel-btn{background:var(--black);border:none;border-radius:6px;padding:8px 16px;font-size:11px;font-weight:700;cursor:pointer;color:var(--white);display:flex;align-items:center;gap:5px;font-family:'DM Sans',sans-serif;transition:opacity .2s;}
+  .sel-btn:hover{opacity:.8;}
+  .sel-btn svg{width:11px;height:11px;stroke:var(--white);fill:none;stroke-width:2.5;}
+
+  /* SERVICE TABS */
+  .svc-tabs{background:var(--white);padding:10px 14px;display:flex;gap:8px;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none;}
+  .svc-tabs::-webkit-scrollbar{display:none;}
+  .svc-tab{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 14px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;background:#fff;transition:all .2s;min-width:70px;}
+  .svc-tab.active{border-color:var(--black);background:var(--black);}
+  .svc-tab.active .tab-lbl{color:var(--white);}
+  .svc-tab.active .tab-ul{display:block;}
+  .tab-em{font-size:20px;line-height:1;}
+  .tab-lbl{font-size:9px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.4px;}
+  .tab-ul{display:none;height:2px;background:var(--accent);border-radius:2px;width:100%;margin-top:3px;}
+  .tab-iw{position:relative;}
+  .tab-bdg{position:absolute;top:-5px;right:-6px;background:var(--accent);color:var(--black);font-size:8px;font-weight:800;padding:1px 4px;border-radius:20px;}
+
+  /* BANNERS */
+  .ban-wrap{padding:14px 14px 6px;display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;}
+  .ban-wrap::-webkit-scrollbar{display:none;}
+  .ban-card{flex-shrink:0;border-radius:16px;overflow:hidden;width:calc(100vw - 60px);max-width:340px;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.12);}
+
+  .ban-hero{background:var(--black);height:200px;display:flex;flex-direction:column;justify-content:center;padding:24px;position:relative;overflow:hidden;}
+  .bc1{position:absolute;right:-30px;top:-30px;width:200px;height:200px;border-radius:50%;border:40px solid rgba(200,169,110,.12);}
+  .bc2{position:absolute;right:40px;bottom:-60px;width:150px;height:150px;border-radius:50%;border:30px solid rgba(200,169,110,.08);}
+  .b-tag{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:2px;text-transform:uppercase;}
+  .b-title{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;color:var(--white);line-height:1.15;margin-top:4px;}
+  .b-title span{color:var(--accent);}
+  .b-sub{font-size:11px;color:#777;margin-top:5px;font-weight:500;}
+  .b-cta{margin-top:13px;display:inline-flex;align-items:center;gap:5px;background:var(--accent);border:none;border-radius:8px;padding:9px 16px;font-size:11px;font-weight:700;cursor:pointer;color:var(--black);font-family:'DM Sans',sans-serif;transition:opacity .2s;width:fit-content;}
+  .b-cta:hover{opacity:.85;}
+  .b-cup{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:68px;opacity:.9;filter:drop-shadow(0 8px 16px rgba(0,0,0,.4));}
+
+  .ban-loyalty{background:linear-gradient(135deg,#1a1a1a,#2d2d2d);height:200px;display:flex;flex-direction:column;justify-content:center;padding:24px;position:relative;overflow:hidden;}
+  .ly-star{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:80px;opacity:.12;}
+  .ly-tag{font-size:10px;color:var(--accent);font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+  .ly-num{font-family:'Playfair Display',serif;font-size:52px;font-weight:900;color:var(--accent);line-height:1;}
+  .ly-sub{font-size:12px;color:#fff;font-weight:700;letter-spacing:.5px;}
+
+  .ban-new{background:linear-gradient(160deg,#f5f0e8,#ede3d0);height:200px;display:flex;flex-direction:column;justify-content:center;padding:24px;position:relative;overflow:hidden;}
+  .n-tag{font-size:10px;color:var(--accent-dark);font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+  .n-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--black);line-height:1.2;margin-top:4px;}
+  .n-sub{font-size:11px;color:#777;margin-top:5px;}
+  .n-cake{position:absolute;right:14px;bottom:10px;font-size:80px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.12));}
+
+  .ban-dots{display:flex;justify-content:center;gap:5px;margin:8px 0;}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--border);transition:all .3s;}
+  .dot.active{background:var(--black);width:18px;border-radius:3px;}
+
+  /* SECTION HEADER */
+  .sec-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 10px;}
+  .sec-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;display:flex;align-items:center;gap:6px;}
+  .view-all{font-size:11px;font-weight:700;color:var(--black);display:flex;align-items:center;gap:3px;cursor:pointer;text-decoration:none;border-bottom:1.5px solid var(--black);padding-bottom:1px;}
+  .view-all svg{width:13px;height:13px;stroke:var(--black);fill:none;}
+
+  /* MENU GRID */
+  .menu-grid{padding:0 14px 16px;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:8px;}
+  .mc{border-radius:12px;overflow:hidden;background:var(--white);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s;position:relative;}
+  .mc:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.12);}
+  .mc.big{grid-row:span 2;}
+  .mc-inner{display:flex;flex-direction:column;height:100%;}
+  .mc-img{flex:1;overflow:hidden;}
+  .mc-img div{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+  .mc-lbl{font-size:10px;font-weight:700;text-align:center;padding:7px 4px;background:var(--white);letter-spacing:.3px;}
+  .bdg-new{position:absolute;top:0;right:0;background:var(--black);color:var(--white);font-size:8px;font-weight:800;padding:4px 7px;border-radius:0 10px 0 8px;letter-spacing:.5px;}
+  .bdg-hot{position:absolute;top:0;right:0;background:var(--accent);color:var(--black);font-size:8px;font-weight:800;padding:4px 7px;border-radius:0 10px 0 8px;letter-spacing:.5px;}
+  .bdg-spl{position:absolute;top:0;left:0;background:var(--black);color:var(--accent);font-size:8px;font-weight:800;padding:4px 8px;border-radius:10px 0 8px 0;letter-spacing:.5px;text-transform:uppercase;}
+
+  /* FEATURED SCROLL */
+  .feat-scroll{padding:0 14px 16px;display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;}
+  .feat-scroll::-webkit-scrollbar{display:none;}
+  .feat-card{flex-shrink:0;width:148px;background:var(--white);border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);cursor:pointer;transition:transform .2s,box-shadow .2s;}
+  .feat-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.12);}
+  .feat-img{width:100%;height:110px;display:flex;align-items:center;justify-content:center;font-size:48px;}
+  .feat-info{padding:10px 10px 12px;}
+  .feat-name{font-size:12px;font-weight:700;}
+  .feat-desc{font-size:10px;color:var(--mid);margin-top:2px;line-height:1.4;}
+  .feat-price{margin-top:8px;display:flex;align-items:center;justify-content:space-between;}
+  .price{font-size:13px;font-weight:800;}
+  .add-btn{width:26px;height:26px;border-radius:50%;background:var(--black);border:none;color:var(--white);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:background .2s;}
+  .add-btn:hover{background:var(--accent);color:var(--black);}
+
+  /* JOIN BANNER */
+  .join-ban{margin:6px 14px 16px;border-radius:16px;overflow:hidden;background:var(--black);padding:22px 20px;position:relative;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.15);}
+  .jr1{position:absolute;right:-20px;top:50%;transform:translateY(-50%);width:120px;height:120px;border-radius:50%;border:24px solid rgba(200,169,110,.15);}
+  .jr2{position:absolute;right:40px;top:-30px;width:80px;height:80px;border-radius:50%;border:16px solid rgba(200,169,110,.08);}
+  .j-sub{font-size:12px;color:#888;font-weight:500;}
+  .j-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;margin-top:4px;color:var(--white);}
+  .j-title span{color:var(--accent);}
+  .j-btn{margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:var(--accent);border:none;border-radius:8px;padding:9px 18px;font-size:12px;font-weight:800;cursor:pointer;color:var(--black);font-family:'DM Sans',sans-serif;transition:opacity .2s;}
+  .j-btn:hover{opacity:.85;}
+
+  /* BOTTOM NAV */
+  .bot-nav{position:fixed;bottom:0;left:0;right:0;background:var(--black);border-top:1px solid #222;display:flex;z-index:700;box-shadow:0 -4px 20px rgba(0,0,0,.3);}
+  .bn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px 8px;cursor:pointer;color:#555;border:none;background:none;font-size:9px;font-weight:700;font-family:'DM Sans',sans-serif;text-transform:uppercase;letter-spacing:.4px;transition:color .2s;}
+  .bn-item svg{width:20px;height:20px;stroke:#555;fill:none;stroke-width:1.8;transition:stroke .2s;}
+  .bn-item.active svg{stroke:var(--accent);}
+  .bn-item.active{color:var(--accent);}
+  .bn-item:hover{color:#bbb;}
+  .bn-item:hover svg{stroke:#bbb;}
+  .crt-wrap{position:relative;}
+  .crt-bdg{position:absolute;top:-4px;right:-5px;background:var(--accent);color:var(--black);font-size:8px;font-weight:800;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+  .off-ico{position:relative;}
+  .off-dot{position:absolute;top:-3px;right:-3px;width:7px;height:7px;background:var(--accent);border-radius:50%;border:1.5px solid var(--black);}
+
+  .page-content{padding-bottom:70px;}
+
+  /* MODALS */
+  .m-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:1200;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px);}
+  .m-overlay.open{display:flex;}
+  .m-sheet{background:var(--white);width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:20px;max-height:75vh;overflow-y:auto;animation:slideUp .3s ease;}
+  @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .m-handle{width:36px;height:3px;background:#ddd;border-radius:2px;margin:0 auto 16px;}
+  .m-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:14px;}
+  .m-opt{display:flex;align-items:center;gap:12px;padding:13px 12px;border-radius:10px;cursor:pointer;margin-bottom:6px;border:1.5px solid var(--border);transition:all .2s;font-size:13px;font-weight:600;}
+  .m-opt:hover{border-color:var(--black);background:#f9f9f9;}
+  .m-opt svg{width:18px;height:18px;stroke:var(--black);fill:none;}
+  .m-close{width:100%;padding:12px;background:var(--black);border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;margin-top:10px;color:var(--white);font-family:'DM Sans',sans-serif;transition:opacity .2s;}
+  .m-close:hover{opacity:.85;}
+  .fg{margin-bottom:12px;}
+  .fg label{font-size:11px;font-weight:700;display:block;margin-bottom:5px;letter-spacing:.5px;text-transform:uppercase;}
+  .fg input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;background:#fafafa;}
+  .fg input:focus{border-color:var(--black);background:var(--white);}
+
+  /* TOAST */
+  #toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--black);color:var(--white);padding:10px 20px;border-radius:24px;font-size:12px;font-weight:600;opacity:0;transition:all .3s;z-index:9999;white-space:nowrap;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.3);border:1px solid #333;}
+</style>
 </head>
 <body>
 
-<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-<div class="sidebar" id="sidebar">
-    <div style="padding: 20px; border-bottom: 2px solid var(--red); margin-bottom: 10px;">
-        <button onclick="toggleMenu()" style="float:right; border:none; background:none; font-size:1.5rem;">&times;</button>
-        <span style="font-weight:bold; font-size:1.2rem;">Welcome!</span>
+<div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="sb-header">
+    <div class="sb-logo">Tinzar <span>Coffee</span></div>
+  </div>
+  <div class="sb-login">
+    <div class="sb-avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+    <div class="sb-login-text"><strong>Login for exclusive Offers</strong>Unlock deals & loyalty points</div>
+    <button class="sb-login-btn" onclick="showLoginModal()">LOGIN</button>
+  </div>
+  <div class="sb-row">
+    <label>Language / ဘာသာစကား</label>
+    <button class="lang-btn" onclick="toggleLang()">မြန်မာ</button>
+  </div>
+  <div class="sb-row">
+    <label>Location</label>
+    <div class="loc-sel" onclick="openLocModal()">📍 Yangon <svg style="width:13px;height:13px;stroke:#ccc;fill:none;stroke-width:2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+  </div>
+  <div class="sb-div"></div>
+  <a class="sb-item" href="#" onclick="closeSidebar()"><div class="si"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>Store Locations</a>
+  <a class="sb-item" href="#" onclick="closeSidebar()"><div class="si"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>Track Order</a>
+  <a class="sb-item" href="#" onclick="closeSidebar()"><div class="si"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/></svg></div>Order History</a>
+  <a class="sb-item" href="#" onclick="closeSidebar()"><div class="si"><svg viewBox="0 0 24 24"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/></svg></div>Offers &amp; Deals</a>
+  <a class="sb-item" href="#" onclick="closeSidebar()"><div class="si"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>My Favorites</a>
+  <a class="sb-item" href="#" onclick="closeSidebar()"><div class="si"><svg viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4"/><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/></svg></div>Explore Menu</a>
+  <div class="sb-div"></div>
+  <a class="sb-item" href="#" onclick="closeSidebar()"><div class="si"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>Feedback</a>
+  <a class="sb-item" href="#" onclick="closeSidebar()"><div class="si"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>FAQ</a>
+  <a class="sb-item" href="#" onclick="closeSidebar()"><div class="si"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>Terms &amp; Conditions</a>
+  <a class="sb-item" href="#" onclick="closeSidebar()"><div class="si"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>Privacy Policy</a>
+  <a class="sb-item" href="#" onclick="closeSidebar()"><div class="si"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>Cookie Policy</a>
+</aside>
+
+<div class="page-content">
+
+  <!-- TOP NAV -->
+  <nav class="top-nav">
+    <div class="nav-left">
+      <button class="hbtn" onclick="openSidebar()"><span></span><span></span><span></span></button>
+      <div class="nav-logo">Tinzar <span>Coffee</span></div>
     </div>
-    <a href="/history"><i class="fa-solid fa-clock-rotate-left"></i> Order History</a>
-    <a href="#"><i class="fa-solid fa-percent"></i> Offers</a>
-    <a href="#"><i class="fa-solid fa-location-dot"></i> Store Locations</a>
-    <a href="/admin?pw=1234" style="color:red;"><i class="fa-solid fa-lock"></i> Admin Panel</a>
-</div>
+    <button class="nav-lang" onclick="toggleLang()">မြန်မာ</button>
+  </nav>
 
-<header>
-    <i class="fa-solid fa-bars" onclick="toggleMenu()" style="font-size:1.5rem; cursor:pointer;"></i>
-    <span style="font-weight:bold; font-size:1.2rem; font-style:italic;">HARDEE'S</span>
-    <i class="fa-solid fa-magnifying-glass" style="font-size:1.2rem;"></i>
-</header>
-
-<div class="cat-nav">
-    <a href="/?category=Crave N' Save" class="cat-btn {% if active_cat=="Crave N' Save" %}active{% endif %}">Crave N' Save</a>
-    <a href="/?category=Burgers" class="cat-btn {% if active_cat=='Burgers' %}active{% endif %}">Burgers</a>
-    <a href="/?category=Beverages" class="cat-btn {% if active_cat=='Beverages' %}active{% endif %}">Beverages</a>
-</div>
-
-{% for d in drinks %}
-<div class="product-card">
-    <img src="{{ d.img }}">
-    <div class="details">
-        <div style="font-weight:bold;">{{ d.name }}</div>
-        <div style="color:#777; font-size:0.8rem; margin: 5px 0;">Deliciously fresh!</div>
-        <div style="color:var(--red); font-weight:bold;">{{ "{:,}".format(d.price) }} Ks</div>
-        <a href="/add_to_cart/{{ d.id }}"><button class="add-btn">ADD TO CART</button></a>
+  <!-- LOCATION BAR -->
+  <div class="loc-bar">
+    <div class="loc-info">
+      <button class="hsm" onclick="openSidebar()"><span></span><span></span><span></span></button>
+      <div class="loc-text">
+        <h3>SELECT LOCATION</h3>
+        <p>Get accurate pricing and menu listing</p>
+      </div>
     </div>
-</div>
-{% endfor %}
+    <button class="sel-btn" onclick="openLocModal()">SELECT <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
 
-<div class="bottom-nav">
-    <a href="/" class="nav-item active"><i class="fa-solid fa-house"></i>Home</a>
-    <a href="/history" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i>History</a>
-    <a href="/cart" class="nav-item">
-        <i class="fa-solid fa-bag-shopping"></i>Cart
-        {% if session['cart'] %}<span style="background:var(--yellow); color:black; border-radius:50%; padding:1px 5px; font-size:0.6rem; position:absolute;">{{ session['cart']|length }}</span>{% endif %}
-    </a>
+  <!-- SERVICE TABS -->
+  <div class="svc-tabs">
+    <div class="svc-tab active" onclick="setTab(this,'delivery')">
+      <div class="tab-iw"><span class="tab-em">🛵</span><span class="tab-bdg">FREE</span></div>
+      <span class="tab-lbl">Delivery</span><div class="tab-ul"></div>
+    </div>
+    <div class="svc-tab" onclick="setTab(this,'pickup')">
+      <div class="tab-iw"><span class="tab-em">🛍️</span></div>
+      <span class="tab-lbl">Pick-Up</span><div class="tab-ul"></div>
+    </div>
+    <div class="svc-tab" onclick="setTab(this,'dinein')">
+      <div class="tab-iw"><span class="tab-em">🪑</span></div>
+      <span class="tab-lbl">Dine-In</span><div class="tab-ul"></div>
+    </div>
+    <div class="svc-tab" onclick="setTab(this,'takeaway')">
+      <div class="tab-iw"><span class="tab-em">📦</span></div>
+      <span class="tab-lbl">Takeaway</span><div class="tab-ul"></div>
+    </div>
+    <div class="svc-tab" onclick="setTab(this,'catering')">
+      <div class="tab-iw"><span class="tab-em">🎂</span></div>
+      <span class="tab-lbl">Catering</span><div class="tab-ul"></div>
+    </div>
+  </div>
+
+  <!-- BANNERS -->
+  <div class="ban-wrap" id="bannerWrap">
+    <div class="ban-card">
+      <div class="ban-hero">
+        <div class="bc1"></div><div class="bc2"></div>
+        <div class="b-tag">☕ New Season</div>
+        <div class="b-title">Crafted<br/>with <span>Love</span></div>
+        <div class="b-sub">Premium coffee & artisan cakes</div>
+        <button class="b-cta" onclick="showToast('Ordering...')">Order Now →</button>
+        <div class="b-cup">☕</div>
+      </div>
+    </div>
+    <div class="ban-card">
+      <div class="ban-loyalty">
+        <div class="ly-star">⭐</div>
+        <div class="ly-tag">☕ Loyalty Reward</div>
+        <div class="ly-num">2×</div>
+        <div class="ly-sub">Points This Week</div>
+        <button class="b-cta" style="margin-top:14px" onclick="showLoginModal()">Join Now</button>
+      </div>
+    </div>
+    <div class="ban-card">
+      <div class="ban-new">
+        <div class="n-tag">🎂 New Arrival</div>
+        <div class="n-title">Velvet<br/>Cake Collection</div>
+        <div class="n-sub">Limited edition · From 4,500 Ks</div>
+        <button class="b-cta" style="margin-top:14px;background:var(--black);color:#fff" onclick="openCat('cakes')">Explore</button>
+        <div class="n-cake">🎂</div>
+      </div>
+    </div>
+  </div>
+  <div class="ban-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+
+  <!-- EXPLORE MENU -->
+  <div class="sec-hdr">
+    <div class="sec-title">Explore Menu ☕</div>
+    <a class="view-all" href="#" onclick="showAllMenu()">View All <svg viewBox="0 0 24 24" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+
+  <div class="menu-grid">
+    <div class="mc big" onclick="openCat('deals')">
+      <div class="bdg-spl">SPECIAL</div>
+      <div class="mc-inner">
+        <div class="mc-img" style="min-height:200px">
+          <div style="background:linear-gradient(160deg,#1a1a1a,#2d2d2d);height:100%;flex-direction:column;gap:6px;">
+            <div style="font-size:42px;">☕</div><div style="font-size:36px;">🎂</div><div style="font-size:28px;">🍰</div>
+          </div>
+        </div>
+        <div class="mc-lbl" style="background:var(--black);color:var(--white);">Combo Deals</div>
+      </div>
+    </div>
+    <div class="mc" onclick="openCat('hot-coffee')">
+      <div class="bdg-hot">HOT</div>
+      <div class="mc-inner">
+        <div class="mc-img" style="height:90px"><div style="background:#f5f0e8;height:100%;font-size:38px;">☕</div></div>
+        <div class="mc-lbl">Hot Coffee</div>
+      </div>
+    </div>
+    <div class="mc" onclick="openCat('iced-coffee')">
+      <div class="bdg-new">ICED</div>
+      <div class="mc-inner">
+        <div class="mc-img" style="height:90px"><div style="background:#e8f0f5;height:100%;font-size:38px;">🧋</div></div>
+        <div class="mc-lbl">Iced Coffee</div>
+      </div>
+    </div>
+    <div class="mc" onclick="openCat('cakes')">
+      <div class="mc-inner">
+        <div class="mc-img" style="height:90px"><div style="background:#fef3e2;height:100%;font-size:38px;">🎂</div></div>
+        <div class="mc-lbl">Cakes</div>
+      </div>
+    </div>
+    <div class="mc" onclick="openCat('pastries')">
+      <div class="mc-inner">
+        <div class="mc-img" style="height:90px"><div style="background:#f5e8f0;height:100%;font-size:38px;">🍰</div></div>
+        <div class="mc-lbl">Pastries</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BESTSELLERS -->
+  <div class="sec-hdr">
+    <div class="sec-title">Bestsellers 🔥</div>
+    <a class="view-all" href="#" onclick="showToast('View all bestsellers...')">View All <svg viewBox="0 0 24 24" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+  <div class="feat-scroll">
+    <div class="feat-card"><div class="feat-img" style="background:#f5f0e8;">☕</div><div class="feat-info"><div class="feat-name">Signature Latte</div><div class="feat-desc">Rich espresso with steamed milk</div><div class="feat-price"><span class="price">3,500 Ks</span><button class="add-btn" onclick="addToCart('Signature Latte')">+</button></div></div></div>
+    <div class="feat-card"><div class="feat-img" style="background:#fde8e8;">🎂</div><div class="feat-info"><div class="feat-name">Red Velvet Cake</div><div class="feat-desc">Classic red velvet with cream</div><div class="feat-price"><span class="price">5,500 Ks</span><button class="add-btn" onclick="addToCart('Red Velvet Cake')">+</button></div></div></div>
+    <div class="feat-card"><div class="feat-img" style="background:#e8f0f5;">🧋</div><div class="feat-info"><div class="feat-name">Cold Brew</div><div class="feat-desc">Slow-steeped, smooth & bold</div><div class="feat-price"><span class="price">4,000 Ks</span><button class="add-btn" onclick="addToCart('Cold Brew')">+</button></div></div></div>
+    <div class="feat-card"><div class="feat-img" style="background:#f5ede0;">🍰</div><div class="feat-info"><div class="feat-name">Tiramisu</div><div class="feat-desc">Italian classic, coffee-soaked</div><div class="feat-price"><span class="price">4,800 Ks</span><button class="add-btn" onclick="addToCart('Tiramisu')">+</button></div></div></div>
+    <div class="feat-card"><div class="feat-img" style="background:#fef3e2;">☕</div><div class="feat-info"><div class="feat-name">Caramel Macchiato</div><div class="feat-desc">Vanilla, caramel & espresso</div><div class="feat-price"><span class="price">4,200 Ks</span><button class="add-btn" onclick="addToCart('Caramel Macchiato')">+</button></div></div></div>
+    <div class="feat-card"><div class="feat-img" style="background:#f0f5e8;">🍵</div><div class="feat-info"><div class="feat-name">Matcha Latte</div><div class="feat-desc">Premium Japanese matcha</div><div class="feat-price"><span class="price">4,500 Ks</span><button class="add-btn" onclick="addToCart('Matcha Latte')">+</button></div></div></div>
+  </div>
+
+  <!-- JOIN BANNER -->
+  <div class="join-ban" onclick="showLoginModal()">
+    <div class="jr1"></div><div class="jr2"></div>
+    <div class="j-sub">Join now and get</div>
+    <div class="j-title"><span>500</span> Bonus Points</div>
+    <button class="j-btn" onclick="event.stopPropagation();showLoginModal()">Join Now ✨</button>
+  </div>
+
 </div>
+
+<!-- BOTTOM NAV -->
+<nav class="bot-nav">
+  <button class="bn-item active" onclick="setBNav(this,'home')">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home
+  </button>
+  <button class="bn-item" onclick="setBNav(this,'search')">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Search
+  </button>
+  <button class="bn-item" onclick="setBNav(this,'offers')">
+    <div class="off-ico"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg><div class="off-dot"></div></div>Offers
+  </button>
+  <button class="bn-item" onclick="setBNav(this,'menu')">
+    <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>Menu
+  </button>
+  <button class="bn-item" onclick="setBNav(this,'cart')">
+    <div class="crt-wrap">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <div class="crt-bdg" id="cartBadge" style="display:none">0</div>
+    </div>Cart
+  </button>
+</nav>
+
+<!-- LOCATION MODAL -->
+<div class="m-overlay" id="locModal" onclick="closeM('locModal',event)">
+  <div class="m-sheet" onclick="event.stopPropagation()">
+    <div class="m-handle"></div>
+    <div class="m-title">Select Location</div>
+    <div class="m-opt" onclick="selLoc('Current Location')"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 10-16 0c0 3 2.7 6.9 8 11.7z"/></svg>Use Current Location</div>
+    <div class="m-opt" onclick="selLoc('Sanchaung Branch')"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 10-16 0c0 3 2.7 6.9 8 11.7z"/></svg>Sanchaung Branch</div>
+    <div class="m-opt" onclick="selLoc('Dagon Branch')"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 10-16 0c0 3 2.7 6.9 8 11.7z"/></svg>Dagon Branch</div>
+    <div class="m-opt" onclick="selLoc('Mandalay Branch')"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 10-16 0c0 3 2.7 6.9 8 11.7z"/></svg>Mandalay Branch</div>
+    <button class="m-close" onclick="closeM('locModal')">Close</button>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="m-overlay" id="loginModal" onclick="closeM('loginModal',event)">
+  <div class="m-sheet" onclick="event.stopPropagation()">
+    <div class="m-handle"></div>
+    <div class="m-title">Welcome Back ☕</div>
+    <div class="fg"><label>Phone Number</label><input type="tel" placeholder="09 XXXXXXXXX" onfocus="this.style.borderColor='var(--black)'" onblur="this.style.borderColor='var(--border)'"/></div>
+    <div class="fg"><label>Password</label><input type="password" placeholder="Enter your password" onfocus="this.style.borderColor='var(--black)'" onblur="this.style.borderColor='var(--border)'"/></div>
+    <button onclick="doLogin()" style="width:100%;padding:13px;background:var(--black);border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;color:var(--white);font-family:'DM Sans',sans-serif;margin-top:4px;">LOGIN</button>
+    <div style="text-align:center;margin-top:12px;font-size:12px;color:#888;">New here? <span style="color:var(--black);font-weight:800;cursor:pointer;border-bottom:1.5px solid var(--black);" onclick="closeM('loginModal')">Create Account</span></div>
+    <button class="m-close" style="background:#f0f0f0;color:#333;margin-top:8px;" onclick="closeM('loginModal')">Cancel</button>
+  </div>
+</div>
+
+<div id="toast"></div>
 
 <script>
-    function toggleMenu() {
-        document.getElementById('sidebar').classList.toggle('active');
-        const overlay = document.getElementById('overlay');
-        overlay.style.display = (overlay.style.display === 'block') ? 'none' : 'block';
-    }
-</script>
+  let cartCount = 0;
 
+  function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sidebar-overlay').classList.add('open');document.body.style.overflow='hidden';}
+  function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.remove('open');document.body.style.overflow='';}
+
+  let isMM=false;
+  function toggleLang(){
+    isMM=!isMM;
+    document.querySelectorAll('.lang-btn,.nav-lang').forEach(b=>b.textContent=isMM?'English':'မြန်မာ');
+    showToast(isMM?'🇲🇲 မြန်မာဘာသာ ပြောင်းလဲပြီ':'🇬🇧 Switched to English');
+  }
+
+  function setTab(el,type){
+    document.querySelectorAll('.svc-tab').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
+    const n={delivery:'Delivery 🛵',pickup:'Pick-Up 🛍️',dinein:'Dine-In 🪑',takeaway:'Takeaway 📦',catering:'Catering 🎂'};
+    showToast('Selected: '+(n[type]||type));
+  }
+
+  function setBNav(el,type){
+    document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
+    el.classList.add('active');
+    const m={home:'Home ☕',search:'Search coming soon...',offers:'🏷️ Offers & Deals',menu:'📋 Full Menu',cart:cartCount?`🛒 ${cartCount} item(s) in cart`:'🛒 Cart is empty'};
+    showToast(m[type]||type);
+  }
+
+  function openLocModal(){document.getElementById('locModal').classList.add('open');document.body.style.overflow='hidden';}
+  function showLoginModal(){closeSidebar();document.getElementById('loginModal').classList.add('open');document.body.style.overflow='hidden';}
+  function closeM(id,e){if(e&&e.target!==document.getElementById(id))return;document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+  function selLoc(name){
+    document.querySelector('.loc-text h3').textContent=name.toUpperCase();
+    document.querySelector('.loc-text p').textContent='Delivery available';
+    closeM('locModal');showToast('📍 '+name);
+  }
+  function doLogin(){closeM('loginModal');showToast('✅ Welcome to Tinzar Coffee! ☕');}
+  function addToCart(name){
+    cartCount++;
+    const b=document.getElementById('cartBadge');
+    b.style.display='flex';b.textContent=cartCount;
+    showToast('🛒 Added: '+name);
+  }
+  function openCat(c){const n={deals:'Combo Deals 🎉',cakes:'Cakes 🎂',pastries:'Pastries 🍰','hot-coffee':'Hot Coffee ☕','iced-coffee':'Iced Coffee 🧋'};showToast('Opening: '+(n[c]||c));}
+  function showAllMenu(){showToast('📋 Full menu loading...');}
+
+  // banner dots
+  const bw=document.getElementById('bannerWrap');
+  const dots=document.querySelectorAll('.dot');
+  bw.addEventListener('scroll',()=>{
+    const idx=Math.round(bw.scrollLeft/(bw.scrollWidth/dots.length));
+    dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
+  });
+
+  function showToast(msg){
+    const t=document.getElementById('toast');
+    t.textContent=msg;t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';
+    clearTimeout(t._t);
+    t._t=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';},2200);
+  }
+</script>
 </body>
 </html>
