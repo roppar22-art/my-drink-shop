@@ -1,71 +1,95 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hardee's Coffee</title>
+    <title>Hardee's Clone</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --red: #e31837; --yellow: #ffc20e; --black: #1a1a1a; }
-        body { font-family: sans-serif; margin: 0; background: #f4f4f4; padding-bottom: 70px; }
-        nav { background: var(--black); padding: 15px; display: flex; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; }
-        .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: white; z-index: 2001; transition: 0.3s; padding: 20px; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; margin: 0; background: #f4f4f4; padding-bottom: 70px; }
+        
+        /* Header */
+        header { background: var(--black); color: white; padding: 15px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+        
+        /* Sidebar */
+        .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: white; z-index: 2001; transition: 0.3s; padding-top: 60px; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
         .sidebar.active { left: 0; }
+        .sidebar a { display: block; padding: 15px 25px; color: var(--black); text-decoration: none; font-weight: bold; border-bottom: 1px solid #eee; }
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; }
-        .cat-nav { background: white; display: flex; overflow-x: auto; padding: 10px; gap: 10px; border-bottom: 2px solid var(--yellow); }
-        .cat-btn { padding: 8px 15px; background: #eee; border-radius: 20px; text-decoration: none; color: #555; font-weight: bold; font-size: 0.8rem; }
+
+        /* Category Nav */
+        .cat-nav { background: white; display: flex; overflow-x: auto; padding: 10px; gap: 15px; border-bottom: 2px solid var(--yellow); }
+        .cat-btn { padding: 8px 18px; background: #eee; border-radius: 20px; text-decoration: none; color: #555; white-space: nowrap; font-size: 0.9rem; font-weight: bold; }
         .cat-btn.active { background: var(--red); color: white; }
-        .menu-grid { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .card img { width: 100%; height: 120px; object-fit: cover; }
-        .add-btn { background: var(--yellow); border: none; width: 100%; padding: 10px; font-weight: bold; cursor: pointer; }
+
+        /* Product List */
+        .product-card { background: white; margin: 15px; border-radius: 10px; display: flex; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .product-card img { width: 120px; height: 120px; object-fit: cover; }
+        .details { padding: 15px; flex-grow: 1; }
+        .add-btn { background: var(--yellow); border: none; padding: 8px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; float: right; margin-top: -30px; }
+
+        /* Bottom Nav */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #ddd; }
-        .nav-link { text-align: center; color: #888; text-decoration: none; font-size: 0.7rem; position: relative; }
-        .nav-link.active { color: var(--red); }
-        .badge { position: absolute; top: -5px; right: -5px; background: var(--yellow); color: black; border-radius: 50%; padding: 2px 6px; font-size: 0.6rem; }
+        .nav-item { text-align: center; color: #888; text-decoration: none; font-size: 0.7rem; }
+        .nav-item i { display: block; font-size: 1.3rem; margin-bottom: 2px; }
+        .nav-item.active { color: var(--red); }
     </style>
 </head>
 <body>
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-    <div class="sidebar" id="sidebar">
-        <h2 style="color:var(--red)">HARDEE'S</h2>
-        <a href="/history" style="display:block; padding:15px 0; text-decoration:none; color:black; font-weight:bold;">Order History</a>
-        <a href="/admin?pw=1234" style="display:block; padding:15px 0; text-decoration:none; color:red; font-weight:bold;">Admin Panel</a>
+
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+<div class="sidebar" id="sidebar">
+    <div style="padding: 20px; border-bottom: 2px solid var(--red); margin-bottom: 10px;">
+        <button onclick="toggleMenu()" style="float:right; border:none; background:none; font-size:1.5rem;">&times;</button>
+        <span style="font-weight:bold; font-size:1.2rem;">Welcome!</span>
     </div>
-    <nav>
-        <i class="fa-solid fa-bars" onclick="toggleMenu()" style="font-size:1.5rem; margin-right:15px;"></i>
-        <div style="font-weight:bold; font-style:italic; font-size:1.2rem; color:var(--yellow)">HARDEE'S</div>
-    </nav>
-    <div class="cat-nav">
-        <a href="/?category=ALL" class="cat-btn {% if active_cat=='ALL' %}active{% endif %}">ALL</a>
-        <a href="/?category=BURGERS" class="cat-btn {% if active_cat=='BURGERS' %}active{% endif %}">BURGERS</a>
-        <a href="/?category=COFFEE" class="cat-btn {% if active_cat=='COFFEE' %}active{% endif %}">COFFEE</a>
+    <a href="/history"><i class="fa-solid fa-clock-rotate-left"></i> Order History</a>
+    <a href="#"><i class="fa-solid fa-percent"></i> Offers</a>
+    <a href="#"><i class="fa-solid fa-location-dot"></i> Store Locations</a>
+    <a href="/admin?pw=1234" style="color:red;"><i class="fa-solid fa-lock"></i> Admin Panel</a>
+</div>
+
+<header>
+    <i class="fa-solid fa-bars" onclick="toggleMenu()" style="font-size:1.5rem; cursor:pointer;"></i>
+    <span style="font-weight:bold; font-size:1.2rem; font-style:italic;">HARDEE'S</span>
+    <i class="fa-solid fa-magnifying-glass" style="font-size:1.2rem;"></i>
+</header>
+
+<div class="cat-nav">
+    <a href="/?category=Crave N' Save" class="cat-btn {% if active_cat=="Crave N' Save" %}active{% endif %}">Crave N' Save</a>
+    <a href="/?category=Burgers" class="cat-btn {% if active_cat=='Burgers' %}active{% endif %}">Burgers</a>
+    <a href="/?category=Beverages" class="cat-btn {% if active_cat=='Beverages' %}active{% endif %}">Beverages</a>
+</div>
+
+{% for d in drinks %}
+<div class="product-card">
+    <img src="{{ d.img }}">
+    <div class="details">
+        <div style="font-weight:bold;">{{ d.name }}</div>
+        <div style="color:#777; font-size:0.8rem; margin: 5px 0;">Deliciously fresh!</div>
+        <div style="color:var(--red); font-weight:bold;">{{ "{:,}".format(d.price) }} Ks</div>
+        <a href="/add_to_cart/{{ d.id }}"><button class="add-btn">ADD TO CART</button></a>
     </div>
-    <div class="menu-grid">
-        {% for d in drinks %}
-        <div class="card">
-            <img src="{{ d.img }}">
-            <div style="padding:10px;">
-                <div style="font-weight:bold; font-size:0.8rem;">{{ d.name }}</div>
-                <div style="color:var(--red); font-weight:bold; margin:5px 0;">{{ "{:,}".format(d.price) }} Ks</div>
-                <a href="/add_to_cart/{{ d.id }}"><button class="add-btn">ADD</button></a>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-    <div class="bottom-nav">
-        <a href="/" class="nav-link active"><i class="fa-solid fa-house" style="display:block; font-size:1.2rem;"></i>Home</a>
-        <a href="/history" class="nav-link"><i class="fa-solid fa-clock-rotate-left" style="display:block; font-size:1.2rem;"></i>History</a>
-        <a href="/cart" class="nav-link">
-            <i class="fa-solid fa-bag-shopping" style="display:block; font-size:1.2rem;"></i>Cart
-            {% if session['cart'] %}<span class="badge">{{ session['cart']|length }}</span>{% endif %}
-        </a>
-    </div>
-    <script>
-        function toggleMenu() {
-            document.getElementById('sidebar').classList.toggle('active');
-            var overlay = document.getElementById('overlay');
-            overlay.style.display = (overlay.style.display === 'block') ? 'none' : 'block';
-        }
-    </script>
+</div>
+{% endfor %}
+
+<div class="bottom-nav">
+    <a href="/" class="nav-item active"><i class="fa-solid fa-house"></i>Home</a>
+    <a href="/history" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i>History</a>
+    <a href="/cart" class="nav-item">
+        <i class="fa-solid fa-bag-shopping"></i>Cart
+        {% if session['cart'] %}<span style="background:var(--yellow); color:black; border-radius:50%; padding:1px 5px; font-size:0.6rem; position:absolute;">{{ session['cart']|length }}</span>{% endif %}
+    </a>
+</div>
+
+<script>
+    function toggleMenu() {
+        document.getElementById('sidebar').classList.toggle('active');
+        const overlay = document.getElementById('overlay');
+        overlay.style.display = (overlay.style.display === 'block') ? 'none' : 'block';
+    }
+</script>
+
 </body>
 </html>
