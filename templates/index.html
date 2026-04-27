@@ -2,48 +2,101 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Coffee Lab</title>
+    <title>Hardee's Clone</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --dark: #1a1a1a; --gold: #d4a373; --bg: #f9f7f2; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); }
-        nav { background: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; sticky: top; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .hero { height: 35vh; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800'); background-size: cover; display: flex; align-items: center; justify-content: center; color: white; text-align: center; }
-        .menu-grid { padding: 20px; display: grid; grid-template-columns: 1fr; gap: 15px; }
-        .card { background: white; display: flex; border-radius: 12px; overflow: hidden; box-shadow: 0 3px 6px rgba(0,0,0,0.05); }
-        .card img { width: 110px; height: 110px; object-fit: cover; }
-        .info { padding: 12px; flex-grow: 1; }
-        .price { color: var(--gold); font-weight: bold; margin: 5px 0; }
-        .btn { background: var(--dark); color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; display: inline-block; font-size: 0.8rem; }
-        .cart-float { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--dark); color: white; padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; width: 80%; text-align: center; }
+        :root { --red: #e31837; --yellow: #ffc20e; --black: #1a1a1a; }
+        body { font-family: 'Arial', sans-serif; margin: 0; background: #f4f4f4; padding-bottom: 80px; }
+        
+        /* Side Menu Overlay */
+        .overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:2000; }
+        .sidebar { position:fixed; top:0; left:-280px; width:280px; height:100%; background:white; z-index:2001; transition: 0.3s; padding: 20px; box-sizing: border-box; }
+        .sidebar.active { left: 0; }
+        .sidebar a { display: block; padding: 15px 0; color: var(--black); text-decoration: none; border-bottom: 1px solid #eee; font-weight: bold; }
+
+        /* Header & Search */
+        nav { background: var(--black); padding: 15px; display: flex; align-items: center; gap: 15px; color: white; sticky: top; }
+        .search-bar { flex-grow: 1; background: white; border-radius: 20px; padding: 5px 15px; display: flex; align-items: center; }
+        .search-bar input { border: none; outline: none; width: 100%; padding: 5px; }
+
+        /* Category Slider */
+        .cat-nav { background: white; display: flex; overflow-x: auto; padding: 10px; gap: 15px; border-bottom: 2px solid var(--yellow); }
+        .cat-btn { padding: 8px 20px; background: #eee; border-radius: 20px; text-decoration: none; color: #555; font-size: 0.8rem; font-weight: bold; }
+        .cat-btn.active { background: var(--red); color: white; }
+
+        /* Grid Layout */
+        .menu-grid { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: relative; }
+        .card img { width: 100%; height: 120px; object-fit: cover; }
+        .price-tag { color: var(--red); font-weight: bold; margin: 5px 0; }
+        .add-btn { background: var(--yellow); border: none; width: 100%; padding: 10px; font-weight: bold; border-radius: 0 0 15px 15px; cursor: pointer; }
+
+        /* Bottom Nav */
+        .bottom-bar { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #ddd; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
+        .nav-link { text-align: center; color: #888; text-decoration: none; font-size: 0.7rem; position: relative; }
+        .nav-link i { display: block; font-size: 1.4rem; margin-bottom: 2px; }
+        .nav-link.active { color: var(--red); }
+        .badge { position: absolute; top: -5px; right: -5px; background: var(--yellow); color: black; border-radius: 50%; padding: 2px 6px; font-size: 0.6rem; }
     </style>
 </head>
 <body>
+
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+<div class="sidebar" id="sidebar">
+    <div style="font-size:1.5rem; margin-bottom:20px;">Welcome!</div>
+    <a href="/track"><i class="fa-solid fa-location-dot"></i> Track Order</a>
+    <a href="#"><i class="fa-solid fa-clock-rotate-left"></i> Order History</a>
+    <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+    <a href="/admin?pw=1234" style="color:red;">Admin Access</a>
+</div>
+
 <nav>
-    <a href="/track" style="color:black"><i class="fa-solid fa-bars"></i></a>
-    <div style="font-weight:bold; letter-spacing:1px;">THE COFFEE LAB</div>
-    <a href="/cart" style="color:black"><i class="fa-solid fa-bag-shopping"></i></a>
+    <i class="fa-solid fa-bars" onclick="toggleMenu()" style="cursor:pointer"></i>
+    <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass" style="color:#888"></i>
+        <input type="text" placeholder="What are you craving?">
+    </div>
 </nav>
 
-<div class="hero">
-    <div><h1>PREMIUM BREW</h1><p>Experience the finest coffee</p></div>
+<div class="cat-nav">
+    <a href="/?category=ALL" class="cat-btn {% if active_cat=='ALL' %}active{% endif %}">ALL</a>
+    <a href="/?category=BURGERS" class="cat-btn {% if active_cat=='BURGERS' %}active{% endif %}">BURGERS</a>
+    <a href="/?category=COFFEE" class="cat-btn {% if active_cat=='COFFEE' %}active{% endif %}">COFFEE</a>
+    <a href="/?category=SHAKES" class="cat-btn {% if active_cat=='SHAKES' %}active{% endif %}">SHAKES</a>
 </div>
 
 <div class="menu-grid">
     {% for d in drinks %}
     <div class="card">
         <img src="{{ d.img }}">
-        <div class="info">
-            <div style="font-weight:bold">{{ d.name }}</div>
-            <div class="price">{{ "{:,}".format(d.price) }} Ks</div>
-            <a href="/add_to_cart/{{ d.id }}" class="btn">ADD TO CART</a>
+        <div style="padding:10px;">
+            <div style="font-weight:bold; font-size:0.9rem;">{{ d.name }}</div>
+            <div class="price-tag">{{ "{:,}".format(d.price) }} Ks</div>
+            <a href="/add_to_cart/{{ d.id }}" style="text-decoration:none">
+                <button class="add-btn">ADD TO CART</button>
+            </a>
         </div>
     </div>
     {% endfor %}
 </div>
 
-<a href="/cart" class="cart-float">
-    VIEW CART ({{ session['cart']|length if session['cart'] else 0 }})
-</a>
+<div class="bottom-bar">
+    <a href="/" class="nav-link active"><i class="fa-solid fa-house"></i>Home</a>
+    <a href="#" class="nav-link"><i class="fa-solid fa-percent"></i>Offers</a>
+    <a href="/cart" class="nav-link">
+        <i class="fa-solid fa-bag-shopping"></i>Cart
+        {% if session['cart'] %}<span class="badge">{{ session['cart']|length }}</span>{% endif %}
+    </a>
+    <a href="/track" class="nav-link"><i class="fa-solid fa-user"></i>Account</a>
+</div>
+
+<script>
+    function toggleMenu() {
+        document.getElementById('sidebar').classList.toggle('active');
+        const overlay = document.getElementById('overlay');
+        overlay.style.display = (overlay.style.display === 'block') ? 'none' : 'block';
+    }
+</script>
+
 </body>
 </html>
