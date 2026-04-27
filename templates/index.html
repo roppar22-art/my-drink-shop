@@ -1,1 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tea & Drink Shop</title>
+</head>
+<body style="font-family: sans-serif; text-align: center; background: #fdfdfd; padding: 20px;">
+    <h1 style="color: #4CAF50;">Online Drink Shop</h1>
+    <p>သောက်စရာများကို ရွေးချယ်မှာယူနိုင်ပါပြီ</p>
+    
+    {% for d in drinks %}
+    <div style="background: white; border: 1px solid #ddd; margin-bottom: 15px; padding: 15px; border-radius: 10px; box-shadow: 2px 2px 5px #eee;">
+        <h3>{{ d.name }}</h3>
+        <p style="color: #e91e63; font-weight: bold;">Price: {{ d.price }} MMK</p>
+        <a href="/order/{{ d.id }}" style="background: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">မှာယူမယ်</a>
+    </div>
+    {% endfor %}
+</body>
+</html>
 
