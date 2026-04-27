@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f5f0eb; }
+        h1 { color: #6b4226; text-align: center; }
+        .order { background: white; border-radius: 12px; padding: 16px; margin: 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .order h3 { margin: 0 0 8px; }
+        .order ul { list-style: none; padding: 0; }
+        .order li { padding: 4px 0; }
+        .total { font-weight: bold; color: #6b4226; }
+        a { color: #6b4226; }
+    </style>
+</head>
+<body>
+    <h1>📋 Order History</h1>
+    {% if orders %}
+        {% for order in orders %}
+        <div class="order">
+            <h3>Order #{{ order.id }}</h3>
+            <ul>
+                {% for item in order.items %}
+                <li>{{ item.emoji }} {{ item.name }} - {{ item.price }} MMK</li>
+                {% endfor %}
+            </ul>
+            <p class="total">Total: {{ order.total }} MMK</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align:center;">No orders yet.</p>
+    {% endif %}
+    <p style="text-align:center; margin-top:20px;">
+        <a href="/">← Back to Menu</a>
+    </p>
+</body>
+</html>
