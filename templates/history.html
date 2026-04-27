@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f4f4f4; }
+        .h-card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; border-left: 5px solid #e31837; }
+        .status { font-weight: bold; font-size: 0.8rem; padding: 3px 8px; border-radius: 5px; }
+        .Pending { background: #fff3cd; color: #856404; }
+        .Confirmed { background: #d4edda; color: #155724; }
+        .Cancelled { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h2>ORDER HISTORY</h2>
+    {% for o in orders %}
+    <div class="h-card">
+        <div><b>Order #{{ o[0] }}</b><br><small>{{ o[1] }}</small></div>
+        <div><span class="status {{ o[2] }}">{{ o[2] }}</span></div>
+    </div>
+    {% endfor %}
+    <a href="/" style="display:block; text-align:center; margin-top:20px; color:#e31837;">Back to Home</a>
+</body>
+</html>
