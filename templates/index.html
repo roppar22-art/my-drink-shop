@@ -33,16 +33,22 @@
 
   .sb-login{display:flex;align-items:center;gap:12px;padding:18px;border-bottom:1px solid #2a2a2a;}
   .sb-avatar{width:42px;height:42px;border-radius:50%;background:#2a2a2a;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid var(--accent);}
-  .sb-avatar svg{width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:1.8;}
+  .sb-avatar i{color:var(--accent); font-size: 1.2rem;}
   .sb-login-text{flex:1;font-size:12px;color:#aaa;line-height:1.5;}
   .sb-login-text strong{color:var(--white);display:block;font-size:13px;}
   .sb-login-btn{border:1.5px solid var(--accent);color:var(--accent);background:transparent;padding:7px 14px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;transition:all .2s;}
   .sb-login-btn:hover{background:var(--accent);color:var(--black);}
 
+  .sb-row{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;border-bottom:1px solid #2a2a2a;}
+  .sb-row label{font-weight:600;font-size:13px;color:#ccc;}
+  .loc-sel{display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13px;font-weight:600;color:#ccc;text-decoration:none;}
+
   .sb-item{display:flex;align-items:center;gap:14px;padding:14px 18px;font-size:13px;font-weight:500;color:#bbb;cursor:pointer;border-bottom:1px solid #1e1e1e;text-decoration:none;transition:all .18s;}
   .sb-item:hover{background:#1a1a1a;color:var(--accent);}
   .si{width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .si svg{width:18px;height:18px;stroke:#666;fill:none;stroke-width:1.8;}
+  .si i{font-size: 1.1rem; color: #666; transition: color 0.18s;}
+  .sb-item:hover .si i{color: var(--accent);}
+  .sb-div{height:1px;background:#2a2a2a;margin:6px 0;}
 
   /* TOP NAV */
   .top-nav{position:sticky;top:0;z-index:800;background:var(--black);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.3);}
@@ -54,125 +60,41 @@
 
   /* SERVICE TABS */
   .svc-tabs{background:var(--white);padding:10px 14px;display:flex;gap:8px;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none;}
+  .svc-tabs::-webkit-scrollbar{display:none;}
   .svc-tab{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;background:#fff;transition:all .2s;text-decoration:none;min-width:80px;}
   .svc-tab.active{border-color:var(--black);background:var(--black);}
   .svc-tab.active .tab-lbl{color:var(--white);}
-  .tab-em{font-size:20px;}
+  .tab-em{font-size:20px;line-height:1;}
   .tab-lbl{font-size:10px;font-weight:700;color:#999;text-transform:uppercase;}
 
   /* MENU SCROLL */
   .feat-scroll{padding:16px 14px;display:flex;gap:15px;overflow-x:auto;scrollbar-width:none;}
-  .feat-card{flex-shrink:0;width:160px;background:var(--white);border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);text-decoration:none;color:inherit;}
+  .feat-scroll::-webkit-scrollbar{display:none;}
+  .feat-card{flex-shrink:0;width:160px;background:var(--white);border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);cursor:pointer;transition:transform .2s,box-shadow .2s;}
+  .feat-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.12);}
   .feat-img{width:100%;height:120px;display:flex;align-items:center;justify-content:center;font-size:50px;background:#fafafa;}
   .feat-info{padding:12px;}
   .feat-name{font-size:13px;font-weight:700;}
   .feat-price{margin-top:10px;display:flex;align-items:center;justify-content:space-between;}
   .price{font-size:14px;font-weight:800;color:var(--accent-dark);}
-  .add-btn{width:30px;height:30px;border-radius:50%;background:var(--black);border:none;color:var(--white);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;text-decoration:none;}
+  .add-btn{width:30px;height:30px;border-radius:50%;background:var(--black);border:none;color:var(--white);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:background .2s;}
+  .add-btn:hover{background:var(--accent); color:var(--black);}
 
   /* BOTTOM CART BAR */
   .cart-bar { position: fixed; bottom: 80px; left: 15px; right: 15px; background: var(--black); color: white; padding: 15px 20px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; z-index: 850; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid var(--accent); }
   .checkout-btn { background: var(--accent); color: var(--black); border: none; padding: 8px 18px; border-radius: 8px; font-weight: 800; cursor: pointer; text-decoration: none; font-size: 13px; }
 
   /* BOTTOM NAV */
-  .bot-nav{position:fixed;bottom:0;left:0;right:0;background:var(--black);border-top:1px solid #222;display:flex;z-index:700;}
-  .bn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 4px;cursor:pointer;color:#555;text-decoration:none;font-size:9px;font-weight:700;text-transform:uppercase;}
-  .bn-item i { font-size: 1.2rem; }
+  .bot-nav{position:fixed;bottom:0;left:0;right:0;background:var(--black);border-top:1px solid #222;display:flex;z-index:700;box-shadow:0 -4px 20px rgba(0,0,0,.3);}
+  .bn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 4px;cursor:pointer;color:#555;text-decoration:none;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+  .bn-item i { font-size: 1.2rem; transition: color .2s; }
   .bn-item.active{color:var(--accent);}
+  .bn-item.active i{color:var(--accent);}
 
   .page-content{padding-bottom:150px;}
 </style>
 </head>
 <body>
 
-<div id="sidebar-overlay" onclick="closeSidebar()"></div>
-
-<aside id="sidebar">
-  <div class="sb-header"><div class="sb-logo">Tinzar <span>Coffee</span></div></div>
-  <div class="sb-login">
-    <div class="sb-avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
-    <div class="sb-login-text"><strong>Welcome Guest</strong>Tinzar Coffee Member</div>
-    <button class="sb-login-btn">LOGIN</button>
-  </div>
-  <a class="sb-item" href="/history"><div class="si"><i class="fa-solid fa-clock-rotate-left"></i></div>Order History</a>
-  <a class="sb-item" href="/admin?pw=1234" style="color:var(--accent)"><div class="si"><i class="fa-solid fa-user-shield"></i></div>Admin Panel</a>
-  <a class="sb-item" href="#" onclick="closeSidebar()"><div class="si"><i class="fa-solid fa-gear"></i></div>Settings</a>
-</aside>
-
-<div class="page-content">
-  <nav class="top-nav">
-    <div class="nav-left">
-      <button class="hbtn" onclick="openSidebar()"><span></span><span></span><span></span></button>
-      <div class="nav-logo">Tinzar <span>Coffee</span></div>
-    </div>
-    <div style="color:var(--accent); font-weight:bold; font-size:12px;">EN | MM</div>
-  </nav>
-
-  <div class="svc-tabs">
-    <a href="/?category=ALL" class="svc-tab {% if active_cat=='ALL' %}active{% endif %}">
-      <div class="tab-em">✨</div><div class="tab-lbl">All</div>
-    </a>
-    <a href="/?category=COFFEE" class="svc-tab {% if active_cat=='COFFEE' %}active{% endif %}">
-      <div class="tab-em">☕</div><div class="tab-lbl">Coffee</div>
-    </a>
-    <a href="/?category=CAKE" class="svc-tab {% if active_cat=='CAKE' %}active{% endif %}">
-      <div class="tab-em">🍰</div><div class="tab-lbl">Cakes</div>
-    </a>
-    <a href="/?category=SNACK" class="svc-tab {% if active_cat=='SNACK' %}active{% endif %}">
-      <div class="tab-em">🥐</div><div class="tab-lbl">Snacks</div>
-    </a>
-  </div>
-
-  <div class="sec-hdr">
-    <div class="sec-title">Menu Items</div>
-  </div>
-
-  <div class="feat-scroll">
-    {% for d in drinks %}
-    <div class="feat-card">
-      <div class="feat-img">{{ d.emoji }}</div>
-      <div class="feat-info">
-        <div class="feat-name">{{ d.name }}</div>
-        <div class="feat-price">
-          <span class="price">{{ "{:,}".format(d.price) }} Ks</span>
-          <a href="/add_to_cart/{{ d.id }}" class="add-btn">+</a>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-
-  {% if session['cart'] %}
-  <div class="cart-bar">
-    <div>
-        <div style="font-size:14px; font-weight:bold;">{{ session['cart']|length }} Items Selected</div>
-        <div style="font-size:11px; color:var(--accent);">Ready to brew!</div>
-    </div>
-    <form action="/checkout" method="POST">
-        <button type="submit" class="checkout-btn">ORDER NOW</button>
-    </form>
-  </div>
-  {% endif %}
-
-</div>
-
-<nav class="bot-nav">
-  <a href="/" class="bn-item active"><i class="fa-solid fa-house"></i>Home</a>
-  <a href="/history" class="bn-item"><i class="fa-solid fa-receipt"></i>Orders</a>
-  <a href="#" class="bn-item"><i class="fa-solid fa-heart"></i>Favs</a>
-  <a href="#" class="bn-item"><i class="fa-solid fa-user"></i>Me</a>
-</nav>
-
-<script>
-  function openSidebar() {
-    document.getElementById('sidebar').classList.add('open');
-    document.getElementById('sidebar-overlay').classList.add('open');
-  }
-  function closeSidebar() {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('sidebar-overlay').classList.remove('open');
-  }
-</script>
-
-</body>
-</html>
+<div id="
+  
