@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardee's - Menu & Offers</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+        }
+        .container {
+            width: 420px;
+            max-width: 100%;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+        .top-bar {
+            background: #1a1a1a;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+        }
+        .header {
+            background: #E31837;
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { display: flex; align-items: center; gap: 10px; }
+        .star {
+            width: 38px; height: 38px;
+            background: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 38px;
+            font-size: 20px;
+            color: #E31837;
+        }
+        .logo-text { color: white; font-weight: bold; font-size: 18px; }
+        .logo-text small { display: block; font-size: 8px; font-weight: normal; }
+        .header-btns { display: flex; gap: 10px; }
+        .header-btns button {
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .hero {
+            background: #E31837;
+            padding: 18px;
+            color: white;
+        }
+        .hero h2 { font-size: 22px; }
+        .hero p { font-size: 11px; opacity: 0.9; margin-top: 4px; }
+        .tabs {
+            display: flex;
+            background: white;
+            margin: -14px 10px 0;
+            border-radius: 16px;
+            padding: 6px;
+            gap: 3px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            overflow-x: auto;
+        }
+        .tab {
+            flex: 1;
+            padding: 10px 6px;
+            border: none;
+            background: transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 9px;
+            color: #666;
+            white-space: nowrap;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+        .tab span { font-size: 16px; }
+        .tab.active { background: #E31837; color: white; }
+        .loyalty {
+            margin: 14px 10px;
+            background: #222;
+            border-radius: 16px;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            cursor: pointer;
+        }
+        .loyalty-left { display: flex; align-items: center; gap: 10px; }
+        .loyalty-left span { font-size: 30px; }
+        .loyalty-left h4 { color: #FFD700; font-size: 14px; }
+        .loyalty-left p { font-size: 9px; opacity: 0.7; }
+        .badge {
+            background: #F5A623;
+            color: #1a1a1a;
+            font-weight: bold;
+            font-size: 9px;
+            padding: 6px 10px;
+            border-radius: 15px;
+        }
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 14px;
+        }
+        .section-title h3 { font-size: 16px; }
+        .section-title button {
+            background: none;
+            border: none;
+            color: #E31837;
+            font-weight: bold;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            padding: 4px 10px;
+        }
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 2px solid transparent;
+        }
+        .card.exclusive { background: #FFF8E1; border-color: #F5A623; }
+        .card span { font-size: 30px; display: block; margin-bottom: 6px; }
+        .card p { font-weight: bold; font-size: 11px; }
+        .join {
+            margin: 8px 10px 14px;
+            background: #E31837;
+            border-radius: 16px;
+            padding: 14px;
+            text-align: center;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .login-box {
+            margin: 0 10px 14px;
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #eee;
+        }
+        .login-box span { font-size: 35px; }
+        .login-box p { font-size: 12px; margin: 8px 0 14px; color: #333; }
+        .login-box button {
+            background: #E31837;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .links {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 4px;
+            padding: 6px 12px 12px;
+        }
+        .links a {
+            font-size: 9px;
+            color: #777;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 3px 0;
+            text-align: center;
+        }
+        .footer {
+            background: #f8f8f8;
+            padding: 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+        }
+        .footer button {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 7px 10px;
+            border-radius: 18px;
+            font-size: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .overlay.show { opacity: 1; pointer-events: all; }
+        .modal {
+            background: white;
+            border-radius: 22px;
+            padding: 26px 20px;
+            width: 340px;
+            max-width: 90%;
+            text-align: center;
+        }
+        .modal .close {
+            float: right;
+            background: #f0f0f0;
+            border: none;
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .modal span { font-size: 40px; }
+        .modal h3 { font-size: 16px; margin: 6px 0; }
+        .modal p { font-size: 11px; color: #666; margin-bottom: 14px; }
+        .modal input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            outline: none;
+        }
+        .modal button.submit {
+            width: 100%;
+            background: #E31837;
+            color: white;
+            border: none;
+            padding: 11px;
+            border-radius: 22px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1a1a1a;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 11px;
+            z-index: 200;
+            transition: transform 0.3s;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <span>9:41</span>
+            <span>📶 📡 🔋</span>
+        </div>
+        <div class="header">
+            <div class="logo">
+                <div class="star">⭐</div>
+                <div class="logo-text">Hardee's<small>Made From Scratch™</small></div>
+            </div>
+            <div class="header-btns">
+                <button onclick="toast('🔍 Search')">🔍</button>
+                <button onclick="toast('❤️ Favorites')">❤️</button>
+                <button onclick="toast('🛒 Cart')">🛒</button>
+            </div>
+        </div>
+        <div class="hero">
+            <h2>SELECT LOCATION</h2>
+            <p>Get accurate pricing and menu listing</p>
+        </div>
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab(this)"><span>🛵</span>DELIVERY</button>
+            <button class="tab" onclick="switchTab(this)"><span>🏪</span>PICKUP</button>
+            <button class="tab" onclick="switchTab(this)"><span>🚗</span>DRIVE-THRU</button>
+            <button class="tab" onclick="switchTab(this)"><span>🛎️</span>CARHOP</button>
+            <button class="tab" onclick="switchTab(this)"><span>🍽️</span>DINE-IN</button>
+        </div>
+        <div class="loyalty" onclick="toast('🌪️ 2X Loyalty Points Active!')">
+            <div class="loyalty-left">
+                <span>🌪️</span>
+                <div><h4>TORNADO</h4><p>Limited Time Offer</p></div>
+            </div>
+            <div class="badge">2X LOYALTY POINTS</div>
+        </div>
+        <div class="section-title">
+            <h3>Explore Menu</h3>
+            <button onclick="toast('📋 View All Menu')">View All →</button>
+        </div>
+        <div class="grid">
+            <div class="card exclusive" onclick="toast('🔥 EXCLUSIVE Deals')"><span>🎯</span><p>EXCLUSIVE Deals</p></div>
+            <div class="card" onclick="toast('🍔 Thickburgers')"><span>🍔</span><p>Thickburgers</p></div>
+            <div class="card" onclick="toast('🍗 Chicken')"><span>🍗</span><p>Hand-breaded Chicken</p></div>
+            <div class="card" onclick="toast('🔥 Burgers')"><span>🔥</span><p>Chargrilled Burgers</p></div>
+        </div>
+        <div class="join" onclick="toast('🎉 500 Bonus Points!')">Join now and get 500 Bonus Points</div>
+        <div class="login-box">
+            <span>🔐</span>
+            <p>Login to unlock exclusive<br>Offers and Discounts</p>
+            <button onclick="openLogin()">LOGIN</button>
+        </div>
+        <div class="links">
+            <a onclick="toast('📍 Store Locations')">Store Locations</a>
+            <a onclick="toast('📦 Track Order')">Track Order</a>
+            <a onclick="toast('📋 Order History')">Order History</a>
+            <a onclick="toast('🎁 Offers')">Offers</a>
+            <a onclick="toast('❤️ My Favorites')">My Favorites</a>
+            <a onclick="toast('📖 Explore Menu')">Explore Menu</a>
+            <a onclick="toast('💬 Feedback')">Feedback</a>
+            <a onclick="toast('❓ FAQ')">FAQ</a>
+            <a onclick="toast('📜 Terms')">Terms & Conditions</a>
+            <a onclick="toast('🔒 Privacy')">Privacy Policy</a>
+            <a onclick="toast('🍪 Cookies')">Cookie Policy</a>
+        </div>
+        <div class="footer">
+            <button onclick="toast('🌐 Language')">🌐 العربية</button>
+            <button onclick="toast('📍 Country')">📍 Country</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay">
+        <div class="modal">
+            <button class="close" onclick="closeLogin()">✕</button>
+            <span>🔐</span>
+            <h3>Welcome Back!</h3>
+            <p>Login to unlock exclusive Offers and Discounts</p>
+            <input type="email" placeholder="Email address" id="email">
+            <input type="password" placeholder="Password" id="pass">
+            <button class="submit" onclick="doLogin()">LOGIN</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toastBox"></div>
+
+    <script>
+        function switchTab(el) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            toast('✅ ' + el.textContent.trim() + ' selected');
+        }
+        function toast(msg) {
+            var t = document.getElementById('toastBox');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(window._tt);
+            window._tt = setTimeout(function(){ t.classList.remove('show'); }, 2000);
+        }
+        function openLogin() {
+            document.getElementById('overlay').classList.add('show');
+        }
+        function closeLogin() {
+            document.getElementById('overlay').classList.remove('show');
+        }
+        function doLogin() {
+            var email = document.getElementById('email').value;
+            var pass = document.getElementById('pass').value;
+            if (!email || !pass) {
+                toast('⚠️ Please fill all fields');
+                return;
+            }
+            toast('✅ Login successful!');
+            closeLogin();
+        }
+    </script>
+</body>
+</html>
