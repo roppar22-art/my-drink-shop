@@ -3,93 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ကျွန်ုပ်တို့၏ ကော်ဖီဆိုင်</title>
-    
+    <title>The Coffee House</title>
     <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         body {
             font-family: 'Pyidaungsu', sans-serif;
             margin: 0;
-            background-color: #f8f1e7; /* နို့နှစ်ရောင် နောက်ခံ */
-            color: #3e2723; /* ကော်ဖီရောင် စာသား */
+            background-color: #fcf8f5;
+            color: #3e2723;
         }
         header {
-            background-color: #3e2723; /* ကော်ဖီရင့်ရောင် Header */
+            background-color: #3e2723;
             color: white;
-            padding: 20px;
+            padding: 30px 20px;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-        header h1 { margin: 0; font-size: 24px; }
-        header p { margin: 5px 0 0; font-weight: normal; font-size: 14px; opacity: 0.8; }
-        
         .menu-container {
             padding: 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
             margin: 0 auto;
         }
-        
         .menu-item {
             background: white;
             border-radius: 15px;
-            overflow: hidden; /* ပုံကို ထောင့်ဝိုင်းဖြစ်အောင် */
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-            transition: transform 0.2s; /* Mouse တင်ရင် တုန်တဲ့ effect */
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
         }
-        .menu-item:hover {
-            transform: translateY(-5px);
-        }
-        
-        /* ကော်ဖီပုံများ (တကယ့်အပြင်ပုံတွေကို သုံးထားပါတယ်) */
         .menu-item img {
             width: 100%;
             height: 200px;
-            object-fit: cover; /* ပုံကို အကွက်ထဲ ကွက်တိဝင်အောင် */
+            object-fit: cover;
+            display: block;
+            background-color: #eee; /* ပုံမပွင့်ခင် ပြနေမယ့်အရောင် */
         }
-        
         .item-details {
-            padding: 15px;
-            text-align: center;
+            padding: 20px;
         }
         .item-name {
             font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 5px;
-            color: #5d4037;
+            font-size: 20px;
+            margin-bottom: 8px;
         }
         .item-price {
-            color: #e65100; /* လိမ္မော်ရင့်ရောင် ဈေးနှုန်း */
-            font-size: 20px;
+            color: #d35400;
+            font-size: 22px;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
-        
         .order-btn {
-            background-color: #795548; /* ကော်ဖီဖျော့ရောင် ခလုတ် */
+            background-color: #5d4037;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
+            padding: 12px 30px;
+            border-radius: 30px;
             font-size: 16px;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
-            transition: background 0.3s;
-        }
-        .order-btn:hover {
-            background-color: #5d4037; /* Mouse တင်ရင် အရောင်ရင့်သွားမယ် */
-        }
-        
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #8d6e63;
-            font-size: 12px;
-            margin-top: 30px;
         }
     </style>
 </head>
@@ -104,13 +79,13 @@
     {% for drink in drinks %}
     <div class="menu-item">
         {% if drink.id == 1 %}
-            <img src=https://www.shutterstock.com/blog/wp-content/uploads/sites/5/2021/05/Green-Tea.jpg>
+            <img src="https://www.thespruceeats.com/thmb/N_Yn4Y9dCq9o1uE4u8nS_Y_Y7Y8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/green-tea-benefits-764350-hero-be88c0c4c4b44b8b9b8b8b8b8b8b8b8b.jpg" alt="Green Tea">
         {% elif drink.id == 2 %}
-            <img src="https://images.unsplash.com/photo-1544787219-7f419807c4c5?q=80&w=600&auto=format&fit=crop" alt="Milk Tea">
+            <img src="https://images.immediate.co.uk/production/volatile/sites/30/2021/06/Bubble-tea-862d5d1.jpg" alt="Milk Tea">
         {% elif drink.id == 3 %}
-            <img src="https://images.unsplash.com/photo-1595434091143-b375ace5d46d?q=80&w=600&auto=format&fit=crop" alt="Coffee">
+            <img src="https://images.unsplash.com/photo-1541167760496-162955ed8a9f?q=80&w=600&auto=format&fit=crop" alt="Coffee">
         {% else %}
-            <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=600&auto=format&fit=crop" alt="Shop Icon">
+            <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=600&auto=format&fit=crop" alt="Default">
         {% endif %}
         
         <div class="item-details">
@@ -122,9 +97,6 @@
     {% endfor %}
 </div>
 
-<footer>
-    <p>© 2024 The Coffee House. All rights reserved.</p>
-</footer>
-
 </body>
 </html>
+
