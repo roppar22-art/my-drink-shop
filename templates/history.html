@@ -1,28 +1,4 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order History</title>
-    <style>
-        body { font-family: sans-serif; background: #f4f4f4; padding: 15px; }
-        .order-card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 5px solid #e31837; display: flex; justify-content: space-between; align-items: center; }
-        .status { font-weight: bold; font-size: 0.8rem; padding: 4px 10px; border-radius: 20px; }
-        .Pending { background: #fff3cd; color: #856404; }
-        .Confirmed { background: #d4edda; color: #155724; }
-        .Cancelled { background: #f8d7da; color: #721c24; }
-    </style>
-</head>
-<body>
-    <h2 style="text-align:center;">Your Orders</h2>
-    {% for o in orders %}
-    <div class="order-card">
-        <div>
-            <b>Order #{{ o[0] }}</b><br>
-            <small style="color:#666;">{{ o[1] }}</small>
-        </div>
-        <span class="status {{ o[2] }}">{{ o[2]|upper }}</span>
-    </div>
-    {% endfor %}
-    <a href="/" style="display:block; text-align:center; color:#e31837; text-decoration:none; margin-top:20px;">BACK TO HOME</a>
-</body>
-</html>
+<head><title>Order History - Tinzar Coffee</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"><style>body{font-family:Inter; background:#fefaf5; padding:2rem;} .order-card{background:white; border-radius:28px; padding:1.5rem; margin-bottom:1rem;}</style></head>
+<body><div class="container" style="max-width:800px; margin:auto;"><h1><i class="fas fa-history"></i> Your Orders</h1><a href="/">← Back to Shop</a>{% for order in orders %}<div class="order-card"><p><strong>Order #{{ order[0] }}</strong> - Status: {{ order[3] }}</p><p>Items:<br/>{{ order[1]|safe }}</p><p>Total: ${{ "%.2f"|format(order[2]/100) }}</p></div>{% else %}<p>No orders yet.</p>{% endfor %}</div></body></html>
