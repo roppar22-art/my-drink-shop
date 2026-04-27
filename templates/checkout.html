@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+</head>
+<body style="font-family: sans-serif; padding: 20px; text-align: center;">
+    <h2>မှာယူမှု အတည်ပြုရန်</h2>
+    <p>ရွေးချယ်ထားသောပစ္စည်း: <b>{{ drink.name }}</b></p>
+    
+    <form action="/confirm" method="POST" style="display: inline-block; text-align: left; width: 100%; max-width: 300px;">
+        <input type="hidden" name="drink_name" value="{{ drink.name }}">
+        <label>အမည်:</label>
+        <input type="text" name="customer_name" style="width: 100%; padding: 10px; margin: 5px 0;" required>
+        <br>
+        <label>ပို့ဆောင်ရမည့်လိပ်စာ:</label>
+        <textarea name="address" style="width: 100%; padding: 10px; margin: 5px 0;" required></textarea>
+        <br>
+        <button type="submit" style="background: #008CBA; color: white; width: 100%; padding: 12px; border: none; border-radius: 5px; margin-top: 10px;">Confirm Order</button>
+    </form>
+</body>
+</html>
