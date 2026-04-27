@@ -2,24 +2,23 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
+    <title>Admin</title>
     <style>
-        body { font-family: sans-serif; background: #eee; padding: 15px; }
-        .order-box { background: white; padding: 15px; margin-bottom: 10px; border-radius: 10px; border-left: 5px solid #1a1a1a; }
-        .cancel-link { color: #ff4d4d; font-weight: bold; text-decoration: none; border: 1px solid #ff4d4d; padding: 5px 10px; border-radius: 5px; display: inline-block; margin-top: 10px; }
-        .status-badge { background: #e0e0e0; padding: 3px 8px; border-radius: 5px; font-size: 0.8rem; }
+        body { font-family: sans-serif; padding: 15px; background: #eee; }
+        .box { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+        .btn { padding: 8px 15px; border-radius: 5px; text-decoration: none; color: white; font-weight: bold; margin-right: 5px; font-size: 0.8rem; }
     </style>
 </head>
 <body>
-    <h2>Coffee Shop Admin</h2>
-    {% for order in orders %}
-    <div class="order-box">
-        <p><b>ID: #{{ order[0] }}</b> <span class="status-badge">{{ order[4] }}</span></p>
-        <p>Customer: {{ order[1] }}</p>
-        <p>Items: {{ order[3] }}</p>
-        <p>Address: {{ order[2] }}</p>
-        {% if order[4] == 'Pending' %}
-        <a href="/cancel/{{ order[0] }}?pw={{ pw }}" class="cancel-link" onclick="return confirm('ပစ္စည်းမရှိလို့ ဒီအော်ဒါကို ပယ်ဖျက်မှာလား?')">CANCEL ORDER</a>
+    <h2>ADMIN PANEL</h2>
+    {% for o in orders %}
+    <div class="box">
+        <p><b>ID: #{{ o[0] }} - {{ o[4] }}</b></p>
+        <p>{{ o[1] }} | {{ o[3] }}</p>
+        <p><small>{{ o[2] }}</small></p>
+        {% if o[4] == 'Pending' %}
+        <a href="/update_status/{{ o[0] }}/Confirmed?pw={{ pw }}" class="btn" style="background:green;">CONFIRM</a>
+        <a href="/update_status/{{ o[0] }}/Cancelled?pw={{ pw }}" class="btn" style="background:red;">CANCEL</a>
         {% endif %}
     </div>
     {% endfor %}
