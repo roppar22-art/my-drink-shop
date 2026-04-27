@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
+        .card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .total { font-weight: bold; color: #c8a96e; }
+        .back { display: block; margin-top: 20px; text-decoration: none; color: black; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h2>My Order History</h2>
+    {% if orders %}
+        {% for o in orders %}
+        <div class="card">
+            <p>Order ID: #{{ o.id }}</p>
+            <p>Total: <span class="total">{{ o.total }} Ks</span></p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No orders yet.</p>
+    {% endif %}
+    <a href="/" class="back">← Back to Menu</a>
+</body>
+</html>
