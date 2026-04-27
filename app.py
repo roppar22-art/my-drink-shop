@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, session
 import uuid
+import os
 
 app = Flask(__name__)
-app.secret_key = 'tinzar_secret_key'
+app.secret_key = os.environ.get('SECRET_KEY', 'tinzar_secret_key_fallback')
 
 # Sample Menu Data
 drinks = [
@@ -50,7 +51,6 @@ def history():
     orders = session.get('history', [])
     return render_template('history.html', orders=orders)
 
-# Hardee's UI Route
 @app.route('/hardees')
 def hardees():
     return render_template('hardees.html')
