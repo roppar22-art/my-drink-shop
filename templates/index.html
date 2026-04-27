@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Coffee Lab</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --primary: #1a1a1a; --accent: #d4a373; --bg: #f9f7f2; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); color: var(--primary); }
+        
+        /* Nav Bar like Image 1000030554 */
+        nav { background: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo { font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
+        
+        /* Hero Section */
+        .hero { height: 40vh; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1000'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; color: white; }
+        
+        /* Grid like Image 1000030561 */
+        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 15px; padding: 20px; }
+        .card { background: white; display: flex; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .card img { width: 120px; height: 120px; object-fit: cover; }
+        .info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+        .price { color: var(--accent); font-weight: bold; font-size: 1.1rem; }
+        .add-btn { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; text-decoration: none; align-self: flex-start; margin-top: 10px; font-size: 0.9rem; }
+
+        /* Floating Cart Link */
+        .cart-status { position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+
+<nav>
+    <i class="fa-solid fa-bars" onclick="location.href='/track'"></i>
+    <div class="logo">The Coffee Lab</div>
+    <a href="/cart" style="color:inherit"><i class="fa-solid fa-bag-shopping"></i></a>
+</nav>
+
+<div class="hero">
+    <h1>FRESHLY BREWED</h1>
+</div>
+
+<div class="menu-grid">
+    {% for drink in drinks %}
+    <div class="card">
+        <img src="{{ drink.img }}">
+        <div class="info">
+            <div style="font-weight: bold;">{{ drink.name }}</div>
+            <div class="price">{{ "{:,}".format(drink.price) }} Ks</div>
+            <a href="/add_to_cart/{{ drink.id }}" class="add-btn">ADD TO CART</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<a href="/cart" class="cart-status">
+    VIEW CART ({{ session['cart']|length if session['cart'] else 0 }})
+</a>
+
+</body>
+</html>
