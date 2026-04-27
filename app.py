@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request, redirect, session
 import uuid
-import os
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', 'tinzar_secret_key_fallback')
+app.secret_key = 'tinzar_coffee_secret_key'
 
 # Sample Menu Data
 drinks = [
@@ -15,16 +14,14 @@ drinks = [
 
 @app.route('/')
 def index():
-    if 'cart' not in session:
-        session['cart'] = []
+    if 'cart' not in session: session['cart'] = []
     cat = request.args.get('category', 'ALL')
     filtered = drinks if cat == 'ALL' else [d for d in drinks if d['category'] == cat]
     return render_template('index.html', drinks=filtered, active_cat=cat)
 
 @app.route('/add_to_cart/<int:drink_id>')
 def add_to_cart(drink_id):
-    if 'cart' not in session:
-        session['cart'] = []
+    if 'cart' not in session: session['cart'] = []
     drink = next((d for d in drinks if d['id'] == drink_id), None)
     if drink:
         session['cart'].append(drink)
@@ -33,12 +30,11 @@ def add_to_cart(drink_id):
 
 @app.route('/checkout', methods=['POST'])
 def checkout():
-    if 'history' not in session:
-        session['history'] = []
+    if 'history' not in session: session['history'] = []
     if session.get('cart'):
         order = {
             'id': str(uuid.uuid4())[:8],
-            'items': session['cart'],
+            'items': list(session['cart']),
             'total': sum(d['price'] for d in session['cart'])
         }
         session['history'].append(order)
@@ -51,41 +47,22 @@ def history():
     orders = session.get('history', [])
     return render_template('history.html', orders=orders)
 
-@app.route('/hardees')
-def hardees():
-    return render_template('hardees.html')
+@app.route('/admin')
+def admin():
+    pw = request.args.get('pw')
+    if pw == "1234":
+        orders = session.get('history', [])
+        return render_template('admin.html', orders=orders)
+    return "Access Denied: Wrong Password", 403
 
 @app.route('/locations')
 def locations():
-    return """
-    <div style="font-family:sans-serif; padding:40px; text-align:center;">
-        <h2 style="color:#c8a96e;">Our Locations</h2>
-        <div style="border:1px solid #ddd; padding:20px; border-radius:15px; display:inline-block;">
-            <p>📍 <b>Bur Dubai Branch</b></p>
-            <p>Al Rolla St, Bur Dubai, UAE</p>
-            <p>📞 +971 50 000 0000</p>
-            <p>⏰ 9:00 AM - 10:00 PM</p>
-        </div><br><br>
-        <a href="/" style="text-decoration:none; color:black; font-weight:bold;">← Back to Menu</a>
-    </div>
-    """
+    return render_template('locations.html') # အောက်တွင် ကုဒ်ပေးထားပါသည်
 
 @app.route('/track_order')
 def track_order():
-    return """
-    <div style="font-family:sans-serif; padding:40px; text-align:center;">
-        <h2 style="color:#c8a96e;">Track Order</h2>
-        <div style="border:1px solid #ddd; padding:20px; border-radius:15px; display:inline-block; width:300px;">
-            <p style="font-size:12px; color:gray;">Order ID: #TZ-9921</p>
-            <p style="font-weight:bold; font-size:20px;">Status: Brewing... ☕</p>
-            <div style="width:100%; background:#eee; height:10px; border-radius:5px; margin:15px 0;">
-                <div style="width:60%; background:#c8a96e; height:10px; border-radius:5px;"></div>
-            </div>
-            <p>Driver is arriving in <b>12 mins</b></p>
-        </div><br><br>
-        <a href="/" style="text-decoration:none; color:black; font-weight:bold;">← Back to Menu</a>
-    </div>
-    """
+    return render_template('track.html') # အောက်တွင် ကုဒ်ပေးထားပါသည်
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
