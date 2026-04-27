@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        body { font-family: sans-serif; background: #eee; padding: 15px; }
+        .order-box { background: white; padding: 15px; margin-bottom: 10px; border-radius: 10px; border-left: 5px solid #1a1a1a; }
+        .cancel-link { color: #ff4d4d; font-weight: bold; text-decoration: none; border: 1px solid #ff4d4d; padding: 5px 10px; border-radius: 5px; display: inline-block; margin-top: 10px; }
+        .status-badge { background: #e0e0e0; padding: 3px 8px; border-radius: 5px; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+    <h2>Coffee Shop Admin</h2>
+    {% for order in orders %}
+    <div class="order-box">
+        <p><b>ID: #{{ order[0] }}</b> <span class="status-badge">{{ order[4] }}</span></p>
+        <p>Customer: {{ order[1] }}</p>
+        <p>Items: {{ order[3] }}</p>
+        <p>Address: {{ order[2] }}</p>
+        {% if order[4] == 'Pending' %}
+        <a href="/cancel/{{ order[0] }}?pw={{ pw }}" class="cancel-link" onclick="return confirm('ပစ္စည်းမရှိလို့ ဒီအော်ဒါကို ပယ်ဖျက်မှာလား?')">CANCEL ORDER</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</body>
+</html>
