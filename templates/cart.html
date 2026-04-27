@@ -2,32 +2,23 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Shopping Cart</title>
+    <title>Cart</title>
     <style>
-        body { font-family: sans-serif; background: #f9f7f2; padding: 20px; }
-        .cart-container { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .cart-item { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0; }
-        .total { font-size: 1.2rem; font-weight: bold; margin-top: 20px; text-align: right; color: #d4a373; }
-        .btn { display: block; width: 100%; padding: 15px; background: #1a1a1a; color: white; text-align: center; text-decoration: none; border-radius: 8px; margin-top: 15px; }
+        body { font-family: sans-serif; padding: 20px; background: #f9f7f2; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .item { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0; }
+        .btn { display: block; width: 100%; padding: 15px; background: #e31837; color: white; text-align: center; text-decoration: none; border-radius: 8px; margin-top: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="cart-container">
-        <h2>SHOPPING CART</h2>
-        {% if items %}
-            {% for item in items %}
-            <div class="cart-item">
-                <span>{{ item.name }}</span>
-                <span>{{ "{:,}".format(item.price) }} Ks</span>
-            </div>
-            {% endfor %}
-            <div class="total">စုစုပေါင်း: {{ "{:,}".format(total) }} Ks</div>
-            <a href="/checkout" class="btn">CHECKOUT မှာယူမည်</a>
-        {% else %}
-            <p style="text-align:center;">ခြင်းတောင်းထဲမှာ ဘာမှမရှိသေးပါ။</p>
-        {% endif %}
-        <a href="/" style="display:block; text-align:center; margin-top:15px; color:#666;">Keep Shopping</a>
+    <div class="card">
+        <h2>Your Cart</h2>
+        {% for item in items %}
+        <div class="item"><span>{{ item.name }}</span><span>{{ item.price }} Ks</span></div>
+        {% endfor %}
+        <h3 style="text-align:right; color:#e31837;">Total: {{ total }} Ks</h3>
+        <a href="/checkout" class="btn">CHECKOUT</a>
+        <a href="/" style="display:block; text-align:center; margin-top:15px; color:#666;">Back to Menu</a>
     </div>
 </body>
 </html>
-
