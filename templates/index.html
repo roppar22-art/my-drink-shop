@@ -588,4 +588,32 @@ function scrollToMenu(){
 
 <div id="toast"></div>
 </script>>
-</html>
+</body><!-- LOCATION MODAL -->
+<div id="locModal" class="m-overlay">
+  <div class="m-sheet">
+    <div class="m-handle"></div>
+    <div class="m-title">Select Location</div>
+    <div class="m-opt" onclick="closeLocModal()">📍 Yangon</div>
+    <div class="m-opt" onclick="closeLocModal()">📍 Mandalay</div>
+    <button class="m-close" onclick="closeLocModal()">Close</button>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div id="loginModal" class="m-overlay">
+  <div class="m-sheet">
+    <div class="m-handle"></div>
+    <div class="m-title">Login</div>
+    <div class="fg">
+      <label>Email</label>
+      <input type="text" placeholder="Enter email"/>
+    </div>
+    <div class="fg">
+      <label>Password</label>
+      <input type="password" placeholder="Enter password"/>
+    </div>
+    <button class="m-close" onclick="closeLoginModal()">Login</button>
+  </div>
+</div>
+
+<div id="toast"></div>
