@@ -1,2 +1,37 @@
 <!DOCTYPE html>
-<html><head><title>Admin</title><style>body{font-family:monospace; padding:20px;} table{border-collapse:collapse;} td,th{border:1px solid #ccc; padding:8px;}</style></head><body><h1>Orders</h1><table><tr><th>ID</th><th>Name</th><th>Address</th><th>Items</th><th>Total</th><th>Status</th><th>Action</th></tr>{% for o in orders %}<tr><td>{{ o[0] }}</td><td>{{ o[1] }}</td><td>{{ o[2] }}</td><td>{{ o[3][:50] }}</td><td>{{ o[4] }}</td><td>{{ o[5] }}</td><td><a href="{{ url_for('update_status', id=o[0], new_status='Completed', pw=pw) }}">✅ Complete</a> <a href="{{ url_for('update_status', id=o[0], new_status='Cancelled', pw=pw) }}">❌ Cancel</a></td></tr>{% endfor %}</table></body></html>
+<html>
+<head>
+    <title>Admin Panel</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        .btn { padding: 5px 10px; text-decoration: none; border-radius: 4px; color: white; }
+        .confirm { background: green; }
+        .cancel { background: red; }
+    </style>
+</head>
+<body>
+    <h2>Admin Order Management</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for o in orders %}
+        <tr>
+            <td>{{ o[0] }}</td>
+            <td>{{ o[2] }}</td>
+            <td>{{ o[3] }}</td>
+            <td>{{ o[4] }}</td>
+            <td>
+                <a href="/update_status/{{ o[0] }}/Confirmed" class="btn confirm">Confirm</a>
+                <a href="/update_status/{{ o[0] }}/Cancelled" class="btn cancel">Cancel</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
