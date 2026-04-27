@@ -1,0 +1,14 @@
+<div style="text-align:center; padding:50px; font-family: sans-serif;">
+    <h2>Track Your Order</h2>
+    <form method="POST">
+        <input type="number" name="order_id" placeholder="Enter Order ID" style="padding:10px; border-radius:5px; border:1px solid #ddd;">
+        <button type="submit" style="padding:10px; background:#1a1a1a; color:white; border:none; border-radius:5px;">Check Status</button>
+    </form>
+
+    {% if order %}
+    <div style="margin-top:30px; padding:20px; border:1px solid #ddd; border-radius:10px;">
+        <p>Items: <b>{{ order[0] }}</b></p>
+        <p>Status: <b style="color:red;">{{ order[1] }}</b></p>
+    </div>
+    {% endif %}
+</div>
