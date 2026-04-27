@@ -1,43 +1,39 @@
 from flask import Flask, render_template, request, redirect, session
 import uuid
 
-app = Flask(__tinzar__)
+app = Flask(__name__)
 app.secret_key = 'tinzar_secret_key'
 
-# Sample Menu Data
+# Sample Menu Data (ထပ်နေတဲ့စာရင်းတွေကို ဖယ်ပြီး တစ်ခါတည်းသတ်မှတ်)
 drinks = [
     {'id': 1, 'name': 'Espresso', 'price': 3500, 'category': 'COFFEE', 'emoji': '☕'},
     {'id': 2, 'name': 'Iced Latte', 'price': 4500, 'category': 'COFFEE', 'emoji': '🥤'},
     {'id': 3, 'name': 'Cheese Cake', 'price': 5500, 'category': 'CAKE', 'emoji': '🍰'},
     {'id': 4, 'name': 'Croissant', 'price': 3000, 'category': 'SNACK', 'emoji': '🥐'},
-    {'id': 1, 'name': 'Espresso', 'price': 3500, 'category': 'COFFEE', 'emoji': '☕'},
-    {'id': 2, 'name': 'Iced Latte', 'price': 4500, 'category': 'COFFEE', 'emoji': '🥤'},
-    {'id': 3, 'name': 'Cheese Cake', 'price': 5500, 'category': 'CAKE', 'emoji': '🍰'},
-    {'id': 4, 'name': 'Croissant', 'price': 3000, 'category': 'SNACK', 'emoji': '🥐'},
 ]
-{'id': 1, 'name': 'Espresso', 'price': 3500, 'category': 'COFFEE', 'emoji': '☕'},
-    {'id': 2, 'name': 'Iced Latte', 'price': 4500, 'category': 'COFFEE', 'emoji': '🥤'},
-    {'id': 3, 'name': 'Cheese Cake', 'price': 5500, 'category': 'CAKE', 'emoji': '🍰'},
-    {'id': 4, 'name': 'Croissant', 'price': 3000, 'category': 'SNACK', 'emoji': '🥐'},
+
 @app.route('/')
 def index():
-    if 'cart' not in session: session['cart'] = []
+    if 'cart' not in session:
+        session['cart'] = []
     cat = request.args.get('category', 'ALL')
     filtered = drinks if cat == 'ALL' else [d for d in drinks if d['category'] == cat]
     return render_template('index.html', drinks=filtered, active_cat=cat)
 
 @app.route('/add_to_cart/<int:drink_id>')
 def add_to_cart(drink_id):
-    if 'cart' not in session: session['cart'] = []
+    if 'cart' not in session:
+        session['cart'] = []
     drink = next((d for d in drinks if d['id'] == drink_id), None)
     if drink:
         session['cart'].append(drink)
         session.modified = True
     return redirect('/')
 
-@app.route('/checkout', method=['POST'])
+@app.route('/checkout', methods=['POST'])
 def checkout():
-    if 'history' not in session: session['history'] = []
+    if 'history' not in session:
+        session['history'] = []
     if session.get('cart'):
         order = {
             'id': str(uuid.uuid4())[:8],
@@ -54,11 +50,14 @@ def history():
     orders = session.get('history', [])
     return render_template('history.html', orders=orders)
 
-# --- သင်တောင်းဆိုထားသော Route အသစ်များ ---
+# ----- Hardee's UI Route အသစ် -----
+@app.route('/hardees')
+def hardees():
+    return render_template('hardees.html')
 
+# --- ရှိပြီးသား Routes (location, track) ---
 @app.route('/locations')
 def locations():
-    # Bur Dubai location အတွက် sample page
     return """
     <div style="font-family:sans-serif; padding:40px; text-align:center;">
         <h2 style="color:#c8a96e;">Our Locations</h2>
@@ -91,4 +90,3 @@ def track_order():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
