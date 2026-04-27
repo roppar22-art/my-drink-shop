@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, session
 import uuid
 
-app = Flask(__name__)
+app = Flask(__tinzar__)
 app.secret_key = 'tinzar_secret_key'
 
 # Sample Menu Data
@@ -10,8 +10,15 @@ drinks = [
     {'id': 2, 'name': 'Iced Latte', 'price': 4500, 'category': 'COFFEE', 'emoji': '🥤'},
     {'id': 3, 'name': 'Cheese Cake', 'price': 5500, 'category': 'CAKE', 'emoji': '🍰'},
     {'id': 4, 'name': 'Croissant', 'price': 3000, 'category': 'SNACK', 'emoji': '🥐'},
+    {'id': 1, 'name': 'Espresso', 'price': 3500, 'category': 'COFFEE', 'emoji': '☕'},
+    {'id': 2, 'name': 'Iced Latte', 'price': 4500, 'category': 'COFFEE', 'emoji': '🥤'},
+    {'id': 3, 'name': 'Cheese Cake', 'price': 5500, 'category': 'CAKE', 'emoji': '🍰'},
+    {'id': 4, 'name': 'Croissant', 'price': 3000, 'category': 'SNACK', 'emoji': '🥐'},
 ]
-
+{'id': 1, 'name': 'Espresso', 'price': 3500, 'category': 'COFFEE', 'emoji': '☕'},
+    {'id': 2, 'name': 'Iced Latte', 'price': 4500, 'category': 'COFFEE', 'emoji': '🥤'},
+    {'id': 3, 'name': 'Cheese Cake', 'price': 5500, 'category': 'CAKE', 'emoji': '🍰'},
+    {'id': 4, 'name': 'Croissant', 'price': 3000, 'category': 'SNACK', 'emoji': '🥐'},
 @app.route('/')
 def index():
     if 'cart' not in session: session['cart'] = []
