@@ -1,4 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head><title>Order History - Tinzar Coffee</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"><style>body{font-family:Inter; background:#fefaf5; padding:2rem;} .order-card{background:white; border-radius:28px; padding:1.5rem; margin-bottom:1rem;}</style></head>
-<body><div class="container" style="max-width:800px; margin:auto;"><h1><i class="fas fa-history"></i> Your Orders</h1><a href="/">← Back to Shop</a>{% for order in orders %}<div class="order-card"><p><strong>Order #{{ order[0] }}</strong> - Status: {{ order[3] }}</p><p>Items:<br/>{{ order[1]|safe }}</p><p>Total: ${{ "%.2f"|format(order[2]/100) }}</p></div>{% else %}<p>No orders yet.</p>{% endfor %}</div></body></html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <style>
+        body { font-family: sans-serif; background: #f5f5f5; padding: 20px; }
+        .order-card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 10px; border-left: 5px solid #c8a96e; }
+        .status { font-weight: bold; float: right; color: #a0824a; }
+    </style>
+</head>
+<body>
+    <h2>My Order History</h2>
+    {% for o in orders %}
+    <div class="order-card">
+        <span class="status">{{ o[4] }}</span>
+        <strong>Order #{{ o[0] }}</strong>
+        <p style="font-size: 0.9rem; color: #666;">{{ o[2] }}</p>
+        <p>Total: {{ o[3] }} Ks</p>
+    </div>
+    {% endfor %}
+    <a href="/">Back to Home</a>
+</body>
+</html>
